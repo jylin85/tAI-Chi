@@ -11,6 +11,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -34,6 +36,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,8 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.example.poseengine.PoseFeedback
+import com.example.poseengine.MediaPipePoseFeedbackEngine
 import com.example.poseengine.PoseFeedbackEngine
-import com.example.poseengine.UnconfiguredPoseFeedbackEngine
 import com.example.tai_chi.ui.theme.TAiChiTheme
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -94,15 +98,11 @@ private fun TaiChiCameraScreen() {
             PoseFeedback(
                 "Ready to practice",
                 "Stand far enough back for your whole body to fit in the frame."
-            ),
-            PoseFeedback(
-                "Detector integration point",
-                "The camera and feedback panel are connected. Add the detector implementation to the pose-engine module for actual form analysis."
             )
         )
     }
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
-    val engine: PoseFeedbackEngine = remember { UnconfiguredPoseFeedbackEngine() }
+    val engine: PoseFeedbackEngine = remember { MediaPipePoseFeedbackEngine(context) }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -126,6 +126,8 @@ private fun TaiChiCameraScreen() {
                         }
                         val analysis = ImageAnalysis.Builder()
                             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                            // RGBA frames convert to a Bitmap cheaply, which is what the pose detector reads.
+                            .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                             .build()
                         analysis.setAnalyzer(cameraExecutor) { image ->
                             try {
@@ -134,13 +136,14 @@ private fun TaiChiCameraScreen() {
                                     feedback.clear()
                                     feedback.addAll(latest)
                                 }
-                            } catch (_: Exception) {
+                            } catch (e: Exception) {
                                 activity.runOnUiThread {
                                     if (feedback.none { it.title == "Detector error" }) {
                                         feedback.add(
                                             PoseFeedback(
                                                 "Detector error",
-                                                "The pose engine could not process this frame."
+                                                "The pose engine could not process this frame: ${e.message ?: e.javaClass.simpleName}",
+                                                com.example.poseengine.Severity.WARNING
                                             )
                                         )
                                     }
@@ -195,8 +198,19 @@ private fun TaiChiCameraScreen() {
                 letterSpacing = 1.sp,
                 modifier = Modifier.padding(top = 3.dp, bottom = 14.dp)
             )
+            Row(Modifier.fillMaxWidth()) {
+                TextButton(onClick = { engine.previous() }, modifier = Modifier.weight(1f)) {
+                    Text("Prev", color = Color(0xFFB8D9C3), fontSize = 11.sp)
+                }
+                TextButton(onClick = { engine.restart() }, modifier = Modifier.weight(1f)) {
+                    Text("Restart", color = Color(0xFFB8D9C3), fontSize = 11.sp)
+                }
+                TextButton(onClick = { engine.next() }, modifier = Modifier.weight(1f)) {
+                    Text("Skip", color = Color(0xFFB8D9C3), fontSize = 11.sp)
+                }
+            }
             LazyColumn(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 items(feedback) { item ->
@@ -234,5 +248,16 @@ private fun FeedbackCard(item: PoseFeedback) {
             lineHeight = 15.sp,
             modifier = Modifier.padding(top = 5.dp)
         )
+        item.thumbnail?.let { bmp ->
+            Image(
+                bitmap = bmp.asImageBitmap(),
+                contentDescription = "Pose to copy",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .background(Color.Black, RoundedCornerShape(6.dp))
+            )
+        }
     }
 }

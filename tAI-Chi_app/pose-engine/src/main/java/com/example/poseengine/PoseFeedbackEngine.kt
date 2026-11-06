@@ -1,5 +1,6 @@
 package com.example.poseengine
 
+import android.graphics.Bitmap
 import androidx.camera.core.ImageProxy
 
 /**
@@ -13,12 +14,19 @@ import androidx.camera.core.ImageProxy
 interface PoseFeedbackEngine {
     fun analyze(frame: ImageProxy): List<PoseFeedback>
     fun close() {}
+
+    /** Practice-sequence controls. Engines without a sequence can ignore them. */
+    fun restart() {}
+    fun next() {}
+    fun previous() {}
 }
 
 data class PoseFeedback(
     val title: String,
     val detail: String,
-    val severity: Severity = Severity.INFO
+    val severity: Severity = Severity.INFO,
+    /** Optional picture shown on the card (e.g. the pose to copy). Engines keep the instance stable between frames. */
+    val thumbnail: Bitmap? = null
 )
 
 enum class Severity { INFO, GOOD, TIP, WARNING }

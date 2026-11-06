@@ -10,3 +10,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+# MediaPipe Tasks (pose-engine). Usually covered by the AAR's consumer rules; kept as a safety net for release builds.
+-keep class com.google.mediapipe.** { *; }
+-keep class com.google.protobuf.** { *; }
+-dontwarn com.google.mediapipe.proto.**
+-dontwarn com.google.auto.value.**
