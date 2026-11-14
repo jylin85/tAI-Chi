@@ -1,0 +1,9 @@
+com.example.poseengine.pose-engine-pngs-0 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\generated\res\pngs\debug
+com.example.poseengine.pose-engine-updated_navigation_xml-1 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\generated\updated_navigation_xml\debug
+com.example.poseengine.pose-engine-mergeDebugResources-2 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\incremental\debug\mergeDebugResources\merged.dir
+com.example.poseengine.pose-engine-mergeDebugResources-3 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\incremental\debug\mergeDebugResources\stripped.dir
+com.example.poseengine.pose-engine-debug-4 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\merged_res\debug\mergeDebugResources
+com.example.poseengine.pose-engine-debug-5 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\packaged_res\debug\packageDebugResources
+com.example.poseengine.pose-engine-debug-6 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\src\debug\res
+com.example.poseengine.pose-engine-main-7 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\src\main\res
+gradleHome-0 C:\Users\Jace\.gradle

@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +32,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,6 +51,7 @@ import androidx.core.content.ContextCompat
 import com.example.poseengine.PoseFeedback
 import com.example.poseengine.MediaPipePoseFeedbackEngine
 import com.example.poseengine.PoseFeedbackEngine
+import com.example.poseengine.ReferenceImage
 import com.example.tai_chi.ui.theme.TAiChiTheme
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -101,6 +106,9 @@ private fun TaiChiCameraScreen() {
             )
         )
     }
+    // The reference picture comes straight from the engine (not from the per-frame feedback), and the
+    // last one received is kept, so it stays on screen whether or not a person is detected.
+    var pinnedReference by remember { mutableStateOf<ReferenceImage?>(null) }
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
     val engine: PoseFeedbackEngine = remember { MediaPipePoseFeedbackEngine(context) }
 
@@ -132,7 +140,9 @@ private fun TaiChiCameraScreen() {
                         analysis.setAnalyzer(cameraExecutor) { image ->
                             try {
                                 val latest = engine.analyze(image)
+                                val reference = engine.currentReference()
                                 activity.runOnUiThread {
+                                    if (reference != null) pinnedReference = reference
                                     feedback.clear()
                                     feedback.addAll(latest)
                                 }
@@ -181,42 +191,88 @@ private fun TaiChiCameraScreen() {
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .fillMaxHeight()
-                .width(148.dp)
+                .fillMaxWidth(0.34f)
                 .background(Color(0xD9101713))
-                .padding(horizontal = 10.dp, vertical = 18.dp)
+                .padding(horizontal = 16.dp, vertical = 18.dp)
         ) {
             Text(
                 "TAI CHI",
                 color = Color.White,
-                fontSize = 17.sp,
+                fontSize = 24.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 "FORM FEEDBACK",
                 color = Color(0xFFB8D9C3),
-                fontSize = 10.sp,
+                fontSize = 14.sp,
                 letterSpacing = 1.sp,
                 modifier = Modifier.padding(top = 3.dp, bottom = 14.dp)
             )
             Row(Modifier.fillMaxWidth()) {
                 TextButton(onClick = { engine.previous() }, modifier = Modifier.weight(1f)) {
-                    Text("Prev", color = Color(0xFFB8D9C3), fontSize = 11.sp)
+                    Text("Prev", color = Color(0xFFB8D9C3), fontSize = 16.sp)
                 }
                 TextButton(onClick = { engine.restart() }, modifier = Modifier.weight(1f)) {
-                    Text("Restart", color = Color(0xFFB8D9C3), fontSize = 11.sp)
+                    Text("Restart", color = Color(0xFFB8D9C3), fontSize = 16.sp)
                 }
                 TextButton(onClick = { engine.next() }, modifier = Modifier.weight(1f)) {
-                    Text("Skip", color = Color(0xFFB8D9C3), fontSize = 11.sp)
+                    Text("Skip", color = Color(0xFFB8D9C3), fontSize = 16.sp)
                 }
             }
+            ReferencePicture(pinnedReference)
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(feedback) { item ->
+                items(feedback.filter { !it.isAdjustment() }) { item ->
                     FeedbackCard(item)
                 }
             }
+        }
+
+        // Corrections the user needs to make right now get their own large banner across the top,
+        // beside the side rail, so they are readable from a distance.
+        val adjustments = feedback.filter { it.isAdjustment() }
+        if (adjustments.isNotEmpty()) {
+            AdjustmentsPanel(
+                adjustments = adjustments,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .fillMaxWidth(0.66f)
+                    .padding(12.dp)
+            )
+        }
+    }
+}
+
+private fun PoseFeedback.isAdjustment() =
+    severity == com.example.poseengine.Severity.TIP || severity == com.example.poseengine.Severity.WARNING
+
+@Composable
+private fun AdjustmentsPanel(adjustments: List<PoseFeedback>, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .background(Color(0xE6101713), RoundedCornerShape(14.dp))
+            .padding(horizontal = 18.dp, vertical = 12.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Text(
+            "ADJUST",
+            color = Color(0xFFFFD27A),
+            fontSize = 16.sp,
+            letterSpacing = 2.sp,
+            fontWeight = FontWeight.Bold
+        )
+        adjustments.take(3).forEach { item ->
+            val color = if (item.severity == com.example.poseengine.Severity.WARNING)
+                Color(0xFFFF9188) else Color.White
+            Text(
+                item.detail,
+                color = color,
+                fontSize = 30.sp,
+                lineHeight = 36.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -233,31 +289,52 @@ private fun FeedbackCard(item: PoseFeedback) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFF26332B), RoundedCornerShape(10.dp))
-            .padding(10.dp)
+            .padding(12.dp)
     ) {
         Text(
             item.title,
             color = accent,
-            fontSize = 12.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold
         )
         Text(
             item.detail,
             color = Color(0xFFF2F5F2),
-            fontSize = 11.sp,
-            lineHeight = 15.sp,
+            fontSize = 17.sp,
+            lineHeight = 23.sp,
             modifier = Modifier.padding(top = 5.dp)
         )
-        item.thumbnail?.let { bmp ->
-            Image(
-                bitmap = bmp.asImageBitmap(),
-                contentDescription = "Pose to copy",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-                    .background(Color.Black, RoundedCornerShape(6.dp))
-            )
+    }
+}
+
+/** The pose to copy, pinned above the scrolling feedback so it is always visible. */
+@Composable
+private fun ReferencePicture(ref: ReferenceImage?) {
+    Column(Modifier.fillMaxWidth().padding(top = 4.dp)) {
+        Text(
+            if (ref != null) "POSE TO COPY  ·  ${ref.label}" else "POSE TO COPY",
+            color = Color(0xFFB8D9C3),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+                .padding(top = 6.dp)
+                .background(Color.Black, RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            if (ref != null) {
+                Image(
+                    bitmap = ref.bitmap.asImageBitmap(),
+                    contentDescription = "Pose to copy",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                Text("Loading…", color = Color(0xFFB8D9C3), fontSize = 14.sp)
+            }
         }
     }
 }

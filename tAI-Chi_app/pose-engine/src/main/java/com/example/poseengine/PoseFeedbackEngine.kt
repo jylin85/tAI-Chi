@@ -19,7 +19,15 @@ interface PoseFeedbackEngine {
     fun restart() {}
     fun next() {}
     fun previous() {}
+
+    /**
+     * The pose the user is currently asked to copy, independent of what this frame's feedback says
+     * (so it is available even when no person is detected). Null if the engine has no reference.
+     */
+    fun currentReference(): ReferenceImage? = null
 }
+
+data class ReferenceImage(val label: String, val bitmap: Bitmap)
 
 data class PoseFeedback(
     val title: String,

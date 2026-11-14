@@ -44,6 +44,16 @@ class MediaPipePoseFeedbackEngine(
     override fun next() { coach?.next() ?: run { pendingCommand = 2 } }
     override fun previous() { coach?.previous() ?: run { pendingCommand = 3 } }
 
+    override fun currentReference(): ReferenceImage? {
+        val ref = reference ?: return null
+        val c = coach ?: return null
+        val total = c.total
+        if (total == 0) return null
+        val i = minOf(c.index, total - 1)   // after the last pose, keep showing the last one
+        val bmp = ref.thumbnail(i) ?: return null
+        return ReferenceImage("Pose ${i + 1}/$total", bmp)
+    }
+
     private fun ensureInitialised(): Boolean {
         if (landmarker != null && coach != null) return true
         if (initError != null) return false
