@@ -1,0 +1,11 @@
+lib/arm64-v8a/libimage_processing_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/arm64-v8a/libsurface_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/armeabi-v7a/libimage_processing_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/armeabi-v7a/libsurface_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/x86/libimage_processing_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/x86/libsurface_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/x86_64/libimage_processing_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/x86_64/libsurface_util_jni.so->androidx.camera:camera-core:1.4.2
+lib/arm64-v8a/libmediapipe_tasks_vision_jni.so->com.google.mediapipe:tasks-vision:0.10.21
+lib/armeabi-v7a/libmediapipe_tasks_vision_jni.so->com.google.mediapipe:tasks-vision:0.10.21
+lib/x86/libmediapipe_tasks_vision_jni.so->com.google.mediapipe:tasks-vision:0.10.21

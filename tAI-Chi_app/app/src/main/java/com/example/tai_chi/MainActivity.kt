@@ -2,6 +2,7 @@ package com.example.tai_chi
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,20 +59,27 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class MainActivity : ComponentActivity() {
-    private val cameraPermission = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted -> setContentViewForCamera(granted) }
+    private val permissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { setContentViewForCamera(hasCamera()) }
+
+    private fun hasCamera() =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+
+    // Camera for the pose detector; Bluetooth for the two IMU boards.
+    private fun requiredPermissions(): List<String> =
+        listOf(Manifest.permission.CAMERA) +
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                listOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
+            else listOf(Manifest.permission.ACCESS_FINE_LOCATION)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentViewForCamera(
-            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED
-        )
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
-            PackageManager.PERMISSION_GRANTED) {
-            cameraPermission.launch(Manifest.permission.CAMERA)
+        setContentViewForCamera(hasCamera())
+        val missing = requiredPermissions().filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }
+        if (missing.isNotEmpty()) permissionRequest.launch(missing.toTypedArray())
     }
 
     private fun setContentViewForCamera(hasPermission: Boolean) {
@@ -112,8 +121,12 @@ private fun TaiChiCameraScreen() {
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
     val engine: PoseFeedbackEngine = remember { MediaPipePoseFeedbackEngine(context) }
 
+    val imu = remember { ImuClient(context) }
+
     DisposableEffect(Unit) {
+        imu.start()
         onDispose {
+            imu.stop()
             engine.close()
             cameraExecutor.shutdown()
         }
@@ -230,6 +243,15 @@ private fun TaiChiCameraScreen() {
             }
         }
 
+        // Live accelerometer / gyroscope readings from the two IMU boards, bottom left beside the rail.
+        ImuPanel(
+            imu = imu,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .fillMaxWidth(0.66f)
+                .padding(12.dp)
+        )
+
         // Corrections the user needs to make right now get their own large banner across the top,
         // beside the side rail, so they are readable from a distance.
         val adjustments = feedback.filter { it.isAdjustment() }
@@ -240,6 +262,57 @@ private fun TaiChiCameraScreen() {
                     .align(Alignment.TopStart)
                     .fillMaxWidth(0.66f)
                     .padding(12.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ImuPanel(imu: ImuClient, modifier: Modifier = Modifier) {
+    Row(modifier, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        ImuCard("LEFT IMU", imu.left.value, Modifier.weight(1f))
+        ImuCard("RIGHT IMU", imu.right.value, Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun ImuCard(title: String, state: ImuClient.State, modifier: Modifier = Modifier) {
+    val r = state.reading
+    Column(
+        modifier = modifier
+            .background(Color(0xE6101713), RoundedCornerShape(12.dp))
+            .padding(12.dp)
+    ) {
+        Text(title, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Text(
+            state.status,
+            color = if (r != null) Color(0xFF78D6A1) else Color(0xFFFFD27A),
+            fontSize = 14.sp
+        )
+        if (r != null) {
+            Text(
+                "ACCEL (g)",
+                color = Color(0xFFB8D9C3),
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+            Text(
+                "x %+.2f  y %+.2f  z %+.2f".format(r.ax, r.ay, r.az),
+                color = Color.White,
+                fontSize = 20.sp,
+                fontFamily = FontFamily.Monospace
+            )
+            Text(
+                "GYRO (°/s)",
+                color = Color(0xFFB8D9C3),
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            Text(
+                "x %+.1f  y %+.1f  z %+.1f".format(r.gx, r.gy, r.gz),
+                color = Color.White,
+                fontSize = 20.sp,
+                fontFamily = FontFamily.Monospace
             )
         }
     }

@@ -1,0 +1,5 @@
+com.example.poseengine.test.pose-engine-updated_navigation_xml-0 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\generated\updated_navigation_xml\debugAndroidTest
+com.example.poseengine.test.pose-engine-packageDebugAndroidTestResources-1 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\incremental\debugAndroidTest\packageDebugAndroidTestResources\merged.dir
+com.example.poseengine.test.pose-engine-packageDebugAndroidTestResources-2 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\incremental\debugAndroidTest\packageDebugAndroidTestResources\stripped.dir
+com.example.poseengine.test.pose-engine-debugAndroidTest-3 C:\Users\Jace\Documents\GitHub\tAI-Chi\tAI-Chi_app\pose-engine\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
+gradleHome-0 C:\Users\Jace\.gradle

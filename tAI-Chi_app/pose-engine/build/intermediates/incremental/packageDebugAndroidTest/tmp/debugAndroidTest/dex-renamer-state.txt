@@ -1,0 +1,16 @@
+#Sun Nov 15 12:28:33 PST 2026
+base.0=C\:\\Users\\Jace\\Documents\\GitHub\\tAI-Chi\\tAI-Chi_app\\pose-engine\\build\\intermediates\\dex\\debugAndroidTest\\mergeExtDexDebugAndroidTest\\classes.dex
+base.1=C\:\\Users\\Jace\\Documents\\GitHub\\tAI-Chi\\tAI-Chi_app\\pose-engine\\build\\intermediates\\dex\\debugAndroidTest\\mergeLibDexDebugAndroidTest\\14\\classes.dex
+base.2=C\:\\Users\\Jace\\Documents\\GitHub\\tAI-Chi\\tAI-Chi_app\\pose-engine\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+base.3=C\:\\Users\\Jace\\Documents\\GitHub\\tAI-Chi\\tAI-Chi_app\\pose-engine\\build\\intermediates\\global_synthetics_dex\\debugAndroidTest\\generateDebugAndroidTestGlobalSynthetics\\classes.dex
+base.4=C\:\\Users\\Jace\\Documents\\GitHub\\tAI-Chi\\tAI-Chi_app\\pose-engine\\build\\intermediates\\dex\\debugAndroidTest\\mergeExtDexDebugAndroidTest\\classes2.dex
+path.0=classes.dex
+path.1=14/classes.dex
+path.2=0/classes.dex
+path.3=classes.dex
+path.4=classes2.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex
+renamed.3=classes4.dex
+renamed.4=classes5.dex
