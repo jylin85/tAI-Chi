@@ -1,4 +1,4 @@
-"""Shared helpers for the Tai Chi coach (used by extract_reference.py and coach.py)."""
+"""Shared pose-detection helpers (MediaPipe + OpenCV)."""
 import os
 import urllib.request
 
@@ -8,48 +8,49 @@ import numpy as np
 from mediapipe.tasks import python as mp_python
 from mediapipe.tasks.python import vision
 
+# Re-exported so older scripts (extract_reference.py, coach.py) keep working unchanged.
+from joints import CONNECTIONS, JOINT_NAMES, JOINTS, mirror_vector  # noqa: F401
+
 MODEL_URL = (
     "https://storage.googleapis.com/mediapipe-models/pose_landmarker/"
     "pose_landmarker_{v}/float16/latest/pose_landmarker_{v}.task"
 )
 
-# Joint name -> (point A, vertex B, point C), BlazePose landmark indices.
-# ORDER MATTERS: left/right pairs are adjacent so mirror_vector() can swap them.
-JOINTS = {
-    "L_elbow": (11, 13, 15), "R_elbow": (12, 14, 16),
-    "L_shoulder": (13, 11, 23), "R_shoulder": (14, 12, 24),
-    "L_hip": (11, 23, 25), "R_hip": (12, 24, 26),
-    "L_knee": (23, 25, 27), "R_knee": (24, 26, 28),
-}
-JOINT_NAMES = list(JOINTS)
-CONNECTIONS = [
-    (11, 12), (11, 13), (13, 15), (12, 14), (14, 16), (11, 23), (12, 24),
-    (23, 24), (23, 25), (25, 27), (24, 26), (26, 28),
-]
 
-
-def create_landmarker(variant="lite"):
-    """variant: 'lite' (fast, for live use), 'full' or 'heavy' (more accurate, for offline)."""
+def create_landmarker(variant="lite", mode="video"):
+    """variant: 'lite' (fast, live use), 'full' or 'heavy' (more accurate, offline).
+    mode: 'video' (temporal tracking, increasing timestamps) or 'image' (independent frames)."""
     path = f"pose_landmarker_{variant}.task"
     if not os.path.exists(path):
         print(f"Downloading {variant} pose model...")
         urllib.request.urlretrieve(MODEL_URL.format(v=variant), path)
     options = vision.PoseLandmarkerOptions(
         base_options=mp_python.BaseOptions(model_asset_path=path),
-        running_mode=vision.RunningMode.VIDEO,
+        running_mode=vision.RunningMode.IMAGE if mode == "image" else vision.RunningMode.VIDEO,
         num_poses=1,
     )
     return vision.PoseLandmarker.create_from_options(options)
 
 
-def detect(landmarker, bgr_frame, ts_ms):
-    """Returns (image_landmarks, world_landmarks) or None. ts_ms must increase."""
+def _wrap(bgr_frame):
     rgb = cv2.cvtColor(bgr_frame, cv2.COLOR_BGR2RGB)
-    image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
-    res = landmarker.detect_for_video(image, ts_ms)
+    return mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb)
+
+
+def _unpack(res):
     if res.pose_landmarks and res.pose_world_landmarks:
         return res.pose_landmarks[0], res.pose_world_landmarks[0]
     return None
+
+
+def detect(landmarker, bgr_frame, ts_ms):
+    """VIDEO mode. Returns (image_landmarks, world_landmarks) or None. ts_ms must increase."""
+    return _unpack(landmarker.detect_for_video(_wrap(bgr_frame), ts_ms))
+
+
+def detect_image(landmarker, bgr_frame):
+    """IMAGE mode (landmarker made with mode='image'). Independent single frames."""
+    return _unpack(landmarker.detect(_wrap(bgr_frame)))
 
 
 def _angle(a, b, c):
@@ -67,11 +68,6 @@ def joint_angles(landmarks, world, min_vis=0.5):
         if min(vis[a], vis[b], vis[c]) >= min_vis:
             out[k] = _angle(pts[a], pts[b], pts[c])
     return out
-
-
-def mirror_vector(vec):
-    """Swap left and right joints (for mirror-style following)."""
-    return np.asarray(vec).reshape(-1, 2)[:, ::-1].ravel()
 
 
 def draw_skeleton(frame, landmarks, flip_x=False, color=(0, 255, 0)):

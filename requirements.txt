@@ -2,3 +2,5 @@ mediapipe
 opencv-python
 numpy
 yt-dlp
+openpyxl
+pillow
