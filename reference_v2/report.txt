@@ -1,0 +1,69 @@
+warning: M04.0: no video has a screenshot for this keyframe
+warning: M05.1: only 1 video - tolerances will be wide and unverified
+warning: M06.1: only 1 video - tolerances will be wide and unverified
+warning: M07.1: no video has a screenshot for this keyframe
+warning: M08.1: only 1 video - tolerances will be wide and unverified
+warning: M08.2: only 1 video - tolerances will be wide and unverified
+warning: M09.1: no video has a screenshot for this keyframe
+warning: M011.1: only 1 video - tolerances will be wide and unverified
+warning: M011.2: only 1 video - tolerances will be wide and unverified
+warning: M012.1: only 1 video - tolerances will be wide and unverified
+warning: M012.2: only 1 video - tolerances will be wide and unverified
+warning: M013.1: no video has a screenshot for this keyframe
+warning: M017.3: only 1 video - tolerances will be wide and unverified
+V1: 32 keyframe screenshots, 6 transition/unsure (not scored)
+  ! V1 M02.1 @ 6.0s: pose changes by 48 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V1 M08.1 @ 98.0s: pose changes by 43 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V1 M012.2 @ 139.0s: pose changes by 37 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V1 M015.3 @ 172.0s: pose changes by 41 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+V2: 26 keyframe screenshots, 2 transition/unsure (not scored)
+  ! V2 M07.2 @ 106.0s: pose changes by 33 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V2 M011.3 @ 150.0s: pose changes by 38 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V2 M015.2 @ 190.0s: pose changes by 78 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+V3: 28 keyframe screenshots, 3 transition/unsure (not scored)
+  ! V3 M04.2 @ 86.0s: pose changes by 30 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M07.2 @ 160.0s: pose changes by 50 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M010.2 @ 214.0s: pose changes by 30 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M014.1 @ 280.0s: pose changes by 48 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M015.2 @ 290.0s: pose changes by 60 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M015.3 @ 292.0s: pose changes by 42 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M015.4 @ 298.0s: pose changes by 31 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V3 M017.3 @ 349.0s: pose changes by 31 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+V4: 25 keyframe screenshots, 7 transition/unsure (not scored)
+  ! V4 M010.2 @ 175.0s: pose changes by 45 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V4 M012.3 @ 200.0s: pose changes by 35 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+
+Keyframes with measurements from fewer than 3 videos:
+  M02.3: 2 video(s)
+  M04.0: 0 video(s)
+  M05.1: 1 video(s)
+  M05.2: 2 video(s)
+  M06.1: 1 video(s)
+  M07.1: 0 video(s)
+  M08.1: 1 video(s)
+  M08.2: 1 video(s)
+  M09.1: 0 video(s)
+  M011.1: 1 video(s)
+  M011.2: 1 video(s)
+  M012.1: 1 video(s)
+  M012.2: 1 video(s)
+  M013.1: 0 video(s)
+  M017.1: 2 video(s)
+  M017.3: 1 video(s)
+
+Consecutive keyframes that are very similar (the coach may match both at once):
+  M04.1 -> M04.2: mean difference is only 0.72x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M04.2 -> M04.3: mean difference is only 0.79x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M04.3 -> M04.4: mean difference is only 0.69x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M04.4 -> M05.1: mean difference is only 0.86x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M06.1 -> M06.2: mean difference is only 0.82x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M010.2 -> M011.1: mean difference is only 0.46x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M011.1 -> M011.2: mean difference is only 0.85x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M012.1 -> M012.2: mean difference is only 0.68x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M014.1 -> M015.1: mean difference is only 0.25x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M015.2 -> M015.3: mean difference is only 0.79x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M015.3 -> M015.4: mean difference is only 0.86x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M016.2 -> M017.1: mean difference is only 0.24x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M017.1 -> M017.2: mean difference is only 0.69x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+
+0 joint conflict(s) written to conflicts.csv
