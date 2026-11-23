@@ -1,0 +1,3871 @@
+{
+ "version": 2,
+ "joint_names": [
+  "L_elbow",
+  "R_elbow",
+  "L_shoulder",
+  "R_shoulder",
+  "L_hip",
+  "R_hip",
+  "L_knee",
+  "R_knee"
+ ],
+ "workbook": "tai_chi_annotations.xlsx",
+ "config": {
+  "base_tol": 12.0,
+  "max_tol": 40.0,
+  "spread_mult": 2.0,
+  "small_n_tol": 18.0,
+  "conflict_dev": 25.0,
+  "hold_s": 0.6,
+  "pass_s": 0.25
+ },
+ "keyframes": [
+  {
+   "id": "M01.1",
+   "index": 0,
+   "movement_no": 1,
+   "movement_name": "Preparation (Wu-Chi)",
+   "sub_name": "Opening stance",
+   "hold_s": 0.6,
+   "instruction": "Stand tall with feet shoulder-width apart, arms hanging relaxed.",
+   "key_points": "Weight even on both feet. Eyes and head level with the horizon. Breathe gently.",
+   "mistakes": "Locking the knees; hunched shoulders.",
+   "target": [
+    141.2,
+    139.1,
+    20.1,
+    29.1,
+    169.7,
+    165.2,
+    162.8,
+    167.8
+   ],
+   "tol": [
+    12.0,
+    12.0,
+    12.0,
+    12.0,
+    12.0,
+    12.0,
+    12.0,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    3,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M01.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 1.0,
+     "angles": [
+      139.9,
+      135.8,
+      23.4,
+      27.2,
+      174.8,
+      167.8,
+      160.7,
+      164.5
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 7.0,
+     "angles": [
+      147.6,
+      139.1,
+      20.1,
+      31.1,
+      172.2,
+      168.3,
+      159.2,
+      166.5
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 12.0,
+     "angles": [
+      null,
+      null,
+      16.7,
+      15.2,
+      167.2,
+      162.6,
+      171.4,
+      174.2
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 11.0,
+     "angles": [
+      141.2,
+      163.6,
+      48.1,
+      36.9,
+      155.5,
+      147.7,
+      164.8,
+      169.1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M02.1",
+   "index": 1,
+   "movement_no": 2,
+   "movement_name": "Beginning",
+   "sub_name": "Hands up",
+   "hold_s": 0.25,
+   "instruction": "Raise your hands, your wrists and biceps follow the hands.",
+   "key_points": "Maintain your posture. Weight distribution stays the same",
+   "mistakes": "Locking the knees; hunched shoulders.",
+   "target": [
+    144.1,
+    132.6,
+    72.9,
+    64.7,
+    166.9,
+    163.6,
+    160.9,
+    162.5
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    12.0,
+    12.0,
+    16.0,
+    12.0,
+    12.0,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    1,
+    2,
+    3,
+    3,
+    4,
+    4,
+    4,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M02.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 6.0,
+     "angles": [
+      144.1,
+      128.1,
+      72.9,
+      59.5,
+      172.6,
+      171.7,
+      159.2,
+      164.0
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 15.0,
+     "angles": [
+      null,
+      137.2,
+      null,
+      83.2,
+      177.2,
+      165.8,
+      156.1,
+      154.3
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 26.0,
+     "angles": [
+      null,
+      null,
+      78.8,
+      null,
+      161.2,
+      161.4,
+      162.6,
+      161.0
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 24.0,
+     "angles": [
+      null,
+      null,
+      68.7,
+      64.7,
+      152.8,
+      153.0,
+      173.3,
+      174.3
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M02.2",
+   "index": 2,
+   "movement_no": 2,
+   "movement_name": "Beginning",
+   "sub_name": "Hands down",
+   "hold_s": 0.25,
+   "instruction": "Lower your hands, your wrists and biceps follow the hands.",
+   "key_points": "Maintain your posture. Weight distribution stays the same",
+   "mistakes": "Locking the knees; hunched shoulders.",
+   "target": [
+    140.1,
+    130.0,
+    22.1,
+    25.3,
+    172.8,
+    166.8,
+    158.7,
+    164.3
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    12.0,
+    13.9,
+    12.0,
+    12.0,
+    12.0,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M02.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 13.0,
+     "angles": [
+      139.2,
+      134.9,
+      22.1,
+      25.3,
+      173.8,
+      170.1,
+      158.5,
+      164.3
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 21.0,
+     "angles": [
+      140.9,
+      125.2,
+      22.0,
+      33.9,
+      172.8,
+      166.8,
+      158.7,
+      162.7
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 34.0,
+     "angles": [
+      null,
+      null,
+      25.9,
+      18.4,
+      156.3,
+      153.6,
+      169.0,
+      172.8
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M02.3",
+   "index": 3,
+   "movement_no": 2,
+   "movement_name": "Beginning",
+   "sub_name": "Hands hold a big ball",
+   "hold_s": 0.25,
+   "instruction": "Move your hands to the right as you pivot right on your left foot. Imagine you start to hold a ball, your left hand supporting the bottom and your right hand supporting the top.",
+   "key_points": "Maintain your posture. Weight should be mostly on the left. Arms should be curved.",
+   "mistakes": "Hands too close together. Right should be around pelvis level and left at heart level.",
+   "target": [
+    null,
+    97.8,
+    31.4,
+    54.6,
+    145.0,
+    151.9,
+    null,
+    null
+   ],
+   "tol": [
+    null,
+    18.0,
+    18.0,
+    28.1,
+    29.4,
+    21.6,
+    null,
+    null
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    0.5,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    0,
+    1,
+    1,
+    2,
+    2,
+    2,
+    0,
+    0
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M02.3.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V3",
+     "time": 51.0,
+     "angles": [
+      null,
+      97.8,
+      null,
+      40.6,
+      159.7,
+      162.6,
+      146.2,
+      152.6
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 44.0,
+     "angles": [
+      null,
+      null,
+      31.4,
+      68.7,
+      130.3,
+      141.1,
+      97.1,
+      101.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M03.1",
+   "index": 4,
+   "movement_no": 3,
+   "movement_name": "Ward Off Left",
+   "sub_name": "Ward off left",
+   "hold_s": 0.25,
+   "instruction": "Shift your weight to the right. Your right hand, palm down, comes down to your hips and your left hand, palm up, rises up to heart level. Step up with your left foot and shift your weight to your left.",
+   "key_points": "Weight should be mostly on your left. Arms should be curved. Right hand at hips and left hand at heart level.",
+   "mistakes": "Hands in the wrong place (too high, too low, too far back), feet not wide enough apart",
+   "target": [
+    125.2,
+    144.6,
+    72.9,
+    49.1,
+    161.5,
+    167.3,
+    169.3,
+    153.7
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    12.0,
+    18.0,
+    12.0,
+    12.0,
+    18.0,
+    28.2
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    3,
+    2,
+    4,
+    3,
+    2,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M03.1.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 24.0,
+     "angles": [
+      125.7,
+      null,
+      73.2,
+      null,
+      165.3,
+      167.3,
+      170.9,
+      167.8
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 32.0,
+     "angles": [
+      124.7,
+      null,
+      72.9,
+      null,
+      165.1,
+      114.3,
+      117.0,
+      84.7
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 60.0,
+     "angles": [
+      null,
+      135.8,
+      null,
+      55.5,
+      157.8,
+      172.2,
+      167.8,
+      153.7
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 49.0,
+     "angles": [
+      null,
+      153.4,
+      58.5,
+      42.6,
+      146.3,
+      144.2,
+      124.6,
+      139.3
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M04.0",
+   "index": 5,
+   "movement_no": 4,
+   "movement_name": "Grasp the Bird's tail",
+   "sub_name": "Transition to ward off right",
+   "hold_s": 0.25,
+   "instruction": "Both hands turn over as you turn clockwise, pivoting on your left foot. Right foot steps in as your pivot right.",
+   "key_points": "Maintain your posture and your left side holds most of the weight here",
+   "mistakes": "",
+   "target": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "tol": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "cues": [],
+   "thumbnail": null,
+   "thumbnail_flip": false,
+   "sources": []
+  },
+  {
+   "id": "M04.1",
+   "index": 6,
+   "movement_no": 4,
+   "movement_name": "Grasp the Bird's tail",
+   "sub_name": "Ward off right",
+   "hold_s": 0.6,
+   "instruction": "Step forward with your right foot and your shift forward, your hands extending outward to the northeast corner. Left palm down, right palm up.",
+   "key_points": "Make sure you are facing northeast relative to where you started (starting direction is north).",
+   "mistakes": "",
+   "target": [
+    137.3,
+    128.7,
+    67.1,
+    55.6,
+    152.7,
+    156.3,
+    148.0,
+    145.2
+   ],
+   "tol": [
+    18.0,
+    12.0,
+    19.6,
+    18.0,
+    12.0,
+    12.0,
+    19.2,
+    14.5
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    1,
+    3,
+    2,
+    2,
+    4,
+    3,
+    4,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M04.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 38.0,
+     "angles": [
+      null,
+      null,
+      57.3,
+      null,
+      147.4,
+      156.3,
+      138.4,
+      146.0
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 45.0,
+     "angles": [
+      137.3,
+      128.7,
+      76.9,
+      85.8,
+      157.9,
+      151.6,
+      135.6,
+      131.5
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 78.0,
+     "angles": [
+      null,
+      122.2,
+      null,
+      59.1,
+      159.8,
+      168.3,
+      157.6,
+      163.3
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 60.0,
+     "angles": [
+      null,
+      130.6,
+      null,
+      52.1,
+      146.6,
+      125.7,
+      157.7,
+      144.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M04.2",
+   "index": 7,
+   "movement_no": 4,
+   "movement_name": "Grasp the Bird's tail",
+   "sub_name": "Roll back",
+   "hold_s": 0.25,
+   "instruction": "Hands come back to your waist as your right hand turns over.",
+   "key_points": "Your weight shifts left as your hands move back.",
+   "mistakes": "",
+   "target": [
+    119.8,
+    132.8,
+    49.4,
+    56.3,
+    162.4,
+    149.4,
+    158.9,
+    167.6
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    12.0,
+    13.6,
+    12.0,
+    23.6,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    2,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M04.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 41.0,
+     "angles": [
+      121.1,
+      134.3,
+      48.3,
+      61.7,
+      157.0,
+      148.4,
+      147.7,
+      166.1
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 50.0,
+     "angles": [
+      118.5,
+      131.2,
+      50.4,
+      60.3,
+      167.8,
+      153.0,
+      146.1,
+      159.7
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 86.0,
+     "angles": [
+      null,
+      null,
+      null,
+      49.9,
+      170.6,
+      150.4,
+      170.1,
+      174.3
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 71.0,
+     "angles": [
+      null,
+      null,
+      null,
+      52.2,
+      148.8,
+      132.6,
+      171.3,
+      169.1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M04.3",
+   "index": 8,
+   "movement_no": 4,
+   "movement_name": "Grasp the Bird's tail",
+   "sub_name": "Press",
+   "hold_s": 0.25,
+   "instruction": "After your hands come back, move your hands towards your chest while pressing your palms together",
+   "key_points": "Pressing your palms together is very important.",
+   "mistakes": "Hands aren't together",
+   "target": [
+    null,
+    100.3,
+    null,
+    63.1,
+    164.5,
+    162.8,
+    144.4,
+    161.5
+   ],
+   "tol": [
+    null,
+    18.0,
+    null,
+    12.0,
+    12.0,
+    12.0,
+    16.6,
+    15.9
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    0,
+    2,
+    0,
+    3,
+    4,
+    3,
+    4,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M04.3.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 44.0,
+     "angles": [
+      97.4,
+      null,
+      42.4,
+      null,
+      168.3,
+      148.8,
+      150.4,
+      165.3
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 55.0,
+     "angles": [
+      151.9,
+      141.7,
+      85.6,
+      76.3,
+      153.2,
+      162.8,
+      138.4,
+      143.4
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 89.0,
+     "angles": [
+      null,
+      100.4,
+      null,
+      63.1,
+      170.2,
+      168.2,
+      133.7,
+      157.8
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 73.0,
+     "angles": [
+      null,
+      100.2,
+      null,
+      60.5,
+      160.8,
+      130.0,
+      165.4,
+      173.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M04.4",
+   "index": 9,
+   "movement_no": 4,
+   "movement_name": "Grasp the Bird's tail",
+   "sub_name": "Push",
+   "hold_s": 0.25,
+   "instruction": "Push forwards with your hands still pressed together",
+   "key_points": "Press forward with your hands while shifting your weight forwards.",
+   "mistakes": "Pushes in the wrong direction. Should be pushing eastward relative to your starting direction.",
+   "target": [
+    null,
+    113.6,
+    null,
+    43.5,
+    157.0,
+    153.3,
+    142.2,
+    157.6
+   ],
+   "tol": [
+    null,
+    18.7,
+    null,
+    17.8,
+    14.6,
+    24.9,
+    22.4,
+    23.9
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    0,
+    3,
+    0,
+    4,
+    4,
+    4,
+    4,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M04.4.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 50.0,
+     "angles": [
+      156.1,
+      162.2,
+      101.4,
+      28.2,
+      145.6,
+      161.1,
+      156.5,
+      173.1
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 61.0,
+     "angles": [
+      98.0,
+      113.6,
+      56.9,
+      46.1,
+      170.2,
+      145.5,
+      134.1,
+      143.7
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 95.0,
+     "angles": [
+      null,
+      123.0,
+      null,
+      61.2,
+      160.2,
+      170.4,
+      124.1,
+      147.6
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 89.0,
+     "angles": [
+      null,
+      103.0,
+      null,
+      40.9,
+      153.9,
+      133.3,
+      150.2,
+      167.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M05.1",
+   "index": 10,
+   "movement_no": 5,
+   "movement_name": "Single whip",
+   "sub_name": "Hands sweep across",
+   "hold_s": 0.25,
+   "instruction": "Separate your hands, making sure your palms are turned downwards and keeping them at shoulder level. Keep your hands extended. Pivot counterclockwise until you are facing west",
+   "key_points": "Keep your arms extended and your palms down.",
+   "mistakes": "",
+   "target": [
+    121.4,
+    null,
+    115.7,
+    null,
+    130.6,
+    158.7,
+    172.1,
+    156.0
+   ],
+   "tol": [
+    18.0,
+    null,
+    18.0,
+    null,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    1,
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M05.1.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V4",
+     "time": 103.0,
+     "angles": [
+      121.4,
+      null,
+      115.7,
+      null,
+      130.6,
+      158.7,
+      172.1,
+      156.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M05.2",
+   "index": 11,
+   "movement_no": 5,
+   "movement_name": "Single whip",
+   "sub_name": "Right hand forms a downward beak shape",
+   "hold_s": 0.25,
+   "instruction": "Pivot clockwise until your right hand extends north. Direct your right hand's fingers towards the ground.",
+   "key_points": "Your right hand, just behind your shoulder, should look like a peacock's beak.",
+   "mistakes": "",
+   "target": [
+    118.8,
+    149.7,
+    57.9,
+    80.4,
+    116.1,
+    162.0,
+    103.9,
+    111.8
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    28.7,
+    18.0,
+    20.4,
+    19.9,
+    20.8
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    1,
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M05.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V2",
+     "time": 81.0,
+     "angles": [
+      118.8,
+      149.7,
+      64.2,
+      94.8,
+      115.9,
+      172.2,
+      113.9,
+      122.2
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 111.0,
+     "angles": [
+      null,
+      null,
+      51.6,
+      66.1,
+      116.3,
+      151.7,
+      93.9,
+      101.4
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M05.3",
+   "index": 12,
+   "movement_no": 5,
+   "movement_name": "Single whip",
+   "sub_name": "Left hand extends outwards",
+   "hold_s": 0.6,
+   "instruction": "Left hand, bladed, extends west",
+   "key_points": "Lead with your hand's pisaform.",
+   "mistakes": "Make sure your right arm is slightly behind the shoulder",
+   "target": [
+    151.1,
+    146.9,
+    84.2,
+    90.1,
+    144.2,
+    157.0,
+    145.6,
+    157.4
+   ],
+   "tol": [
+    12.0,
+    18.0,
+    12.0,
+    18.0,
+    22.0,
+    12.0,
+    22.6,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    4,
+    2,
+    4,
+    2,
+    4,
+    4,
+    3,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M05.3.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 74.0,
+     "angles": [
+      152.6,
+      150.8,
+      94.0,
+      93.6,
+      159.4,
+      160.0,
+      159.6,
+      159.0
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 86.0,
+     "angles": [
+      151.7,
+      143.1,
+      83.2,
+      86.5,
+      137.4,
+      153.9,
+      145.6,
+      163.5
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 126.0,
+     "angles": [
+      146.1,
+      null,
+      81.6,
+      null,
+      151.0,
+      171.8,
+      89.5,
+      151.4
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 119.0,
+     "angles": [
+      150.6,
+      null,
+      85.1,
+      null,
+      126.7,
+      150.2,
+      134.3,
+      155.9
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M06.1",
+   "index": 13,
+   "movement_no": 6,
+   "movement_name": "Step Forward and Raise Hands",
+   "sub_name": "Hands come down",
+   "hold_s": 0.25,
+   "instruction": "Start lowering your hands as you pivot clockwise on your left foot, your wrists and biceps follow the hands.",
+   "key_points": "Maintain your posture and balance as you move.",
+   "mistakes": "",
+   "target": [
+    null,
+    null,
+    36.3,
+    14.9,
+    162.3,
+    157.4,
+    155.4,
+    164.4
+   ],
+   "tol": [
+    null,
+    null,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M06.1.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V3",
+     "time": 138.0,
+     "angles": [
+      null,
+      null,
+      36.3,
+      14.9,
+      162.3,
+      157.4,
+      155.4,
+      164.4
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M06.2",
+   "index": 14,
+   "movement_no": 6,
+   "movement_name": "Step Forward and Raise Hands",
+   "sub_name": "Hands come back up, right foot now in front",
+   "hold_s": 0.6,
+   "instruction": "Align your right hand so that it is angled away from you at chest level. Move your left towards your heart. Your right foot steps forward.",
+   "key_points": "Your heels should be between each other, on the same line. Your right heel should be directly in front of your left.",
+   "mistakes": "Fingers straight",
+   "target": [
+    110.4,
+    111.6,
+    45.3,
+    42.6,
+    169.3,
+    170.3,
+    136.1,
+    151.8
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    12.0,
+    18.0,
+    15.2,
+    18.0,
+    28.7,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    3,
+    2,
+    3,
+    2,
+    3,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M06.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 84.0,
+     "angles": [
+      108.5,
+      111.6,
+      45.3,
+      41.9,
+      176.8,
+      175.6,
+      150.4,
+      155.3
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 97.0,
+     "angles": [
+      112.2,
+      111.5,
+      41.7,
+      43.4,
+      169.3,
+      165.1,
+      136.1,
+      148.2
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 127.0,
+     "angles": [
+      null,
+      null,
+      45.4,
+      null,
+      151.8,
+      null,
+      115.5,
+      null
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M07.1",
+   "index": 15,
+   "movement_no": 7,
+   "movement_name": "White Crane Spreads Wings",
+   "sub_name": "Shoulder strike",
+   "hold_s": 0.25,
+   "instruction": "Left hand moves by your right shoulder as if you're striking something with your right shoulder. Right hand moves down. Pivot counterclockwise so that you're facing west.",
+   "key_points": "Most of your weight should be on the right foot. Pretend that you're blocking someone's strike with your left hand and hitting something with your right shoulder.",
+   "mistakes": "",
+   "target": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "tol": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "cues": [],
+   "thumbnail": null,
+   "thumbnail_flip": false,
+   "sources": []
+  },
+  {
+   "id": "M07.2",
+   "index": 16,
+   "movement_no": 7,
+   "movement_name": "White Crane Spreads Wings",
+   "sub_name": "Right hand above head, left hand by hip",
+   "hold_s": 0.6,
+   "instruction": "Raise your right hand above your head, and lower your left hand so that it is by your left hip",
+   "key_points": "Most of your weight should be on the right foot. Your left foot should barely be touching the ground; only the ball of your foot should be in contact. You should be in an empty stance",
+   "mistakes": "If you feel off balance, shift a bit of weight on to your front foot.",
+   "target": [
+    151.5,
+    148.7,
+    41.5,
+    119.6,
+    146.8,
+    158.6,
+    142.8,
+    134.9
+   ],
+   "tol": [
+    18.0,
+    12.0,
+    27.0,
+    20.7,
+    18.0,
+    12.0,
+    24.5,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    4,
+    2,
+    4,
+    2,
+    4,
+    2,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M07.2.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 94.0,
+     "angles": [
+      null,
+      148.4,
+      null,
+      124.9,
+      null,
+      159.0,
+      null,
+      170.9
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 106.0,
+     "angles": [
+      null,
+      127.1,
+      null,
+      97.2,
+      null,
+      152.5,
+      null,
+      134.5
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 160.0,
+     "angles": [
+      157.8,
+      154.1,
+      55.0,
+      114.4,
+      147.0,
+      162.6,
+      155.1,
+      147.8
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 138.0,
+     "angles": [
+      145.1,
+      149.0,
+      28.0,
+      135.1,
+      146.6,
+      158.1,
+      130.6,
+      134.9
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M08.1",
+   "index": 17,
+   "movement_no": 8,
+   "movement_name": "Left Brush Knee and Push",
+   "sub_name": "Right hand comes down",
+   "hold_s": 0.25,
+   "instruction": "Right hand comes down and across to the left",
+   "key_points": "Keep most of your weight on the right foot.",
+   "mistakes": "",
+   "target": [
+    114.3,
+    149.4,
+    55.5,
+    43.1,
+    133.9,
+    172.3,
+    125.3,
+    142.2
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M08.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 98.0,
+     "angles": [
+      114.3,
+      149.4,
+      55.5,
+      43.1,
+      133.9,
+      172.3,
+      125.3,
+      142.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M08.2",
+   "index": 18,
+   "movement_no": 8,
+   "movement_name": "Left Brush Knee and Push",
+   "sub_name": "Left hand goes up, comes down, and right hand brushes right knee simultaneously",
+   "hold_s": 0.25,
+   "instruction": "Left hand goes up, comes down, and right hand brushes right knee simultaneously while the left hand comes down",
+   "key_points": "Keep most of your weight on the right foot.",
+   "mistakes": "",
+   "target": [
+    108.2,
+    101.4,
+    47.6,
+    58.9,
+    173.3,
+    153.7,
+    161.5,
+    160.2
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M08.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 100.0,
+     "angles": [
+      108.2,
+      101.4,
+      47.6,
+      58.9,
+      173.3,
+      153.7,
+      161.5,
+      160.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M08.3",
+   "index": 19,
+   "movement_no": 8,
+   "movement_name": "Left Brush Knee and Push",
+   "sub_name": "Left Brush Knee and right hand moves by right ear. Left foot steps up",
+   "hold_s": 0.6,
+   "instruction": "Left hand brushes knee and right hand moves by right ear. Shift more of your weight on your left foot.Your left palm should be just in front of your left hip.",
+   "key_points": "You should now be in a bow stance.",
+   "mistakes": "Left palm too far back; right hand too high or low",
+   "target": [
+    149.4,
+    129.6,
+    29.2,
+    85.1,
+    145.3,
+    154.1,
+    159.2,
+    162.6
+   ],
+   "tol": [
+    18.0,
+    12.0,
+    18.0,
+    12.0,
+    23.1,
+    15.9,
+    22.7,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    4,
+    2,
+    4,
+    4,
+    3,
+    4,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M08.3.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 103.0,
+     "angles": [
+      null,
+      131.2,
+      null,
+      83.6,
+      156.5,
+      146.2,
+      174.3,
+      162.6
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 119.0,
+     "angles": [
+      null,
+      125.0,
+      null,
+      88.5,
+      132.4,
+      169.7,
+      166.9,
+      164.8
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 182.0,
+     "angles": [
+      150.5,
+      142.5,
+      33.9,
+      86.7,
+      157.2,
+      null,
+      151.5,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 155.0,
+     "angles": [
+      148.2,
+      128.1,
+      24.5,
+      80.8,
+      134.1,
+      154.1,
+      135.4,
+      155.7
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M09.1",
+   "index": 20,
+   "movement_no": 9,
+   "movement_name": "Hand Strums the Lute",
+   "sub_name": "Step up with right foot",
+   "hold_s": 0.25,
+   "instruction": "Step up with right foot while your left hand starts to rise to neck level and your right hand to chest level",
+   "key_points": "",
+   "mistakes": "",
+   "target": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "tol": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "weight": [
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "cues": [],
+   "thumbnail": null,
+   "thumbnail_flip": false,
+   "sources": []
+  },
+  {
+   "id": "M09.2",
+   "index": 21,
+   "movement_no": 9,
+   "movement_name": "Hand Strums the Lute",
+   "sub_name": "Hands come up while stepping up with left foot",
+   "hold_s": 0.6,
+   "instruction": "Hands come up while stepping up with left foot, such that your left hand is higher than your right.",
+   "key_points": "Fingers should be pointing diagnoally upwards. Left foot in front of right. Your right heel should be touching the ground while your right heel is off the ground.",
+   "mistakes": "Too much weight on front foot",
+   "target": [
+    147.0,
+    123.4,
+    85.4,
+    52.2,
+    160.3,
+    161.0,
+    167.8,
+    156.8
+   ],
+   "tol": [
+    12.0,
+    12.0,
+    12.0,
+    12.0,
+    22.4,
+    12.0,
+    15.3,
+    20.9
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    4,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M09.2.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 110.0,
+     "angles": [
+      147.0,
+      117.5,
+      90.0,
+      47.0,
+      171.5,
+      161.0,
+      172.9,
+      173.4
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 127.0,
+     "angles": [
+      null,
+      133.6,
+      null,
+      65.8,
+      138.6,
+      163.4,
+      177.9,
+      156.8
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 199.0,
+     "angles": [
+      147.2,
+      null,
+      85.4,
+      null,
+      160.3,
+      null,
+      150.3,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 165.0,
+     "angles": [
+      134.8,
+      123.4,
+      76.3,
+      52.2,
+      118.1,
+      153.6,
+      162.6,
+      146.4
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M010.2",
+   "index": 22,
+   "movement_no": 10,
+   "movement_name": "Left Brush Knee and Push 1",
+   "sub_name": "Left hand brushes knee and right hand moves by right ear and extends forward",
+   "hold_s": 0.25,
+   "instruction": "Left hand brushes knee and right hand moves by right ear and extends forward. Shift your weight to your left foot.",
+   "key_points": "Keep the key points from the previous left brush knee in mind.",
+   "mistakes": "",
+   "target": [
+    153.0,
+    126.7,
+    29.0,
+    79.2,
+    155.6,
+    164.1,
+    158.6,
+    171.3
+   ],
+   "tol": [
+    18.0,
+    12.0,
+    18.0,
+    12.0,
+    12.0,
+    12.0,
+    32.1,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    1,
+    4,
+    2,
+    4,
+    4,
+    4,
+    4,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M010.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 119.0,
+     "angles": [
+      null,
+      127.0,
+      null,
+      76.1,
+      160.5,
+      162.3,
+      174.8,
+      173.6
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 137.0,
+     "angles": [
+      null,
+      124.7,
+      null,
+      78.0,
+      130.8,
+      168.5,
+      174.4,
+      169.0
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 214.0,
+     "angles": [
+      null,
+      126.3,
+      33.4,
+      80.3,
+      153.6,
+      165.9,
+      142.7,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 175.0,
+     "angles": [
+      153.0,
+      136.0,
+      24.5,
+      84.5,
+      157.6,
+      154.8,
+      133.6,
+      131.1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M011.1",
+   "index": 23,
+   "movement_no": 11,
+   "movement_name": "Right Brush Knee and Push 2",
+   "sub_name": "Left foot pivots counterclockwise",
+   "hold_s": 0.25,
+   "instruction": "Left foot pivots counterclockwise",
+   "key_points": "Keep most of your weight on the left foot. The right brush knee is very similar to the left brush knee except it is on the other side.",
+   "mistakes": "",
+   "target": [
+    null,
+    108.9,
+    null,
+    77.5,
+    156.0,
+    171.6,
+    171.5,
+    173.0
+   ],
+   "tol": [
+    null,
+    18.0,
+    null,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M011.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 123.0,
+     "angles": [
+      null,
+      108.9,
+      null,
+      77.5,
+      156.0,
+      171.6,
+      171.5,
+      173.0
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M011.2",
+   "index": 24,
+   "movement_no": 11,
+   "movement_name": "Right Brush Knee and Push 2",
+   "sub_name": "Left hand moves back to left ear while right foot steps up and right hand brushes right knee",
+   "hold_s": 0.25,
+   "instruction": "Left hand moves back to left ear while right foot steps up and right hand brushes right knee",
+   "key_points": "Keep most of your weight on the left foot.",
+   "mistakes": "Stepping too far. If you feel like you need to really reach forward or lower yourself to step, you're overdoing it.",
+   "target": [
+    null,
+    131.4,
+    84.0,
+    64.0,
+    157.2,
+    131.4,
+    172.7,
+    159.4
+   ],
+   "tol": [
+    null,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M011.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 128.0,
+     "angles": [
+      null,
+      131.4,
+      84.0,
+      64.0,
+      157.2,
+      131.4,
+      172.7,
+      159.4
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M011.3",
+   "index": 25,
+   "movement_no": 11,
+   "movement_name": "Right Brush Knee and Push 2",
+   "sub_name": "Left hand extends outwards while right foot steps up again",
+   "hold_s": 0.6,
+   "instruction": "Left hand extends outwards while right foot steps up again",
+   "key_points": "You should now be in a bow stance.",
+   "mistakes": "Right palm too far back; left hand too high or low",
+   "target": [
+    142.6,
+    140.9,
+    88.3,
+    26.4,
+    155.1,
+    145.5,
+    121.2,
+    150.7
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    12.0,
+    12.0,
+    18.0,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    2,
+    2,
+    4,
+    4,
+    2,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M011.3.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 131.0,
+     "angles": [
+      null,
+      149.3,
+      null,
+      21.9,
+      159.4,
+      144.5,
+      174.6,
+      154.7
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 150.0,
+     "angles": [
+      null,
+      132.6,
+      null,
+      30.8,
+      150.4,
+      136.7,
+      121.6,
+      147.4
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 231.0,
+     "angles": [
+      149.6,
+      null,
+      90.5,
+      null,
+      153.2,
+      159.8,
+      120.8,
+      154.0
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 187.0,
+     "angles": [
+      135.5,
+      null,
+      86.0,
+      null,
+      157.0,
+      146.5,
+      154.3,
+      146.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M012.1",
+   "index": 26,
+   "movement_no": 12,
+   "movement_name": "Left Brush Knee and Push 3",
+   "sub_name": "Right foot pivots counterclockwise",
+   "hold_s": 0.25,
+   "instruction": "Right foot pivots counterclockwise",
+   "key_points": "Keep most of your weight on the right foot.",
+   "mistakes": "",
+   "target": [
+    null,
+    105.6,
+    null,
+    50.7,
+    161.7,
+    149.4,
+    178.2,
+    174.3
+   ],
+   "tol": [
+    null,
+    18.0,
+    null,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    0.5,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    0,
+    1,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M012.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 134.0,
+     "angles": [
+      null,
+      105.6,
+      null,
+      50.7,
+      161.7,
+      149.4,
+      178.2,
+      174.3
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M012.2",
+   "index": 27,
+   "movement_no": 12,
+   "movement_name": "Left Brush Knee and Push 3",
+   "sub_name": "Right hand moves back to right ear while left foot steps up and left hand brushes left knee",
+   "hold_s": 0.25,
+   "instruction": "Right hand moves back to right ear while left foot steps up and left hand brushes left knee",
+   "key_points": "Keep most of your weight on the right foot.",
+   "mistakes": "Stepping too far. If you feel like you need to really reach forward or lower yourself to step, you're overdoing it.",
+   "target": [
+    112.2,
+    98.6,
+    41.7,
+    49.1,
+    168.6,
+    153.5,
+    148.6,
+    149.6
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M012.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 139.0,
+     "angles": [
+      112.2,
+      98.6,
+      41.7,
+      49.1,
+      168.6,
+      153.5,
+      148.6,
+      149.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M012.3",
+   "index": 28,
+   "movement_no": 12,
+   "movement_name": "Left Brush Knee and Push 3",
+   "sub_name": "Right hand extends outwards while left foot steps up again",
+   "hold_s": 0.6,
+   "instruction": "Right hand extends outwards while left foot steps up again",
+   "key_points": "You should now be in a bow stance.",
+   "mistakes": "Left palm too far back; right hand too high or low",
+   "target": [
+    144.6,
+    129.4,
+    null,
+    85.5,
+    148.6,
+    167.3,
+    157.3,
+    166.2
+   ],
+   "tol": [
+    31.2,
+    24.5,
+    null,
+    12.0,
+    12.0,
+    20.1,
+    35.1,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    3,
+    0,
+    3,
+    4,
+    3,
+    4,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M012.3.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 142.0,
+     "angles": [
+      null,
+      109.2,
+      null,
+      61.6,
+      157.0,
+      167.3,
+      177.4,
+      176.6
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 165.0,
+     "angles": [
+      null,
+      129.4,
+      null,
+      85.5,
+      142.1,
+      177.4,
+      172.3,
+      166.2
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 250.0,
+     "angles": [
+      129.0,
+      null,
+      83.7,
+      null,
+      151.7,
+      null,
+      132.8,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 200.0,
+     "angles": [
+      160.2,
+      141.7,
+      30.6,
+      85.9,
+      145.5,
+      154.0,
+      142.3,
+      163.2
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M013.1",
+   "index": 29,
+   "movement_no": 13,
+   "movement_name": "Hand Strums the Lute",
+   "sub_name": "Step up with right foot",
+   "hold_s": 0.25,
+   "instruction": "Step up with right foot",
+   "key_points": "",
+   "mistakes": "",
+   "target": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "tol": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+   ],
+   "weight": [
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "cues": [],
+   "thumbnail": null,
+   "thumbnail_flip": false,
+   "sources": []
+  },
+  {
+   "id": "M013.2",
+   "index": 30,
+   "movement_no": 13,
+   "movement_name": "Hand Strums the Lute",
+   "sub_name": "Hands come up while stepping up with left foot",
+   "hold_s": 0.6,
+   "instruction": "Hands come up while stepping up with left foot, such that your left hand is higher than your right.",
+   "key_points": "Fingers should be pointing forwards. Left foot in front of right. Your right heel should be touching the ground while your right heel is off the ground.",
+   "mistakes": "Too much weight on front foot",
+   "target": [
+    126.7,
+    123.7,
+    79.8,
+    54.7,
+    143.8,
+    144.1,
+    150.1,
+    138.9
+   ],
+   "tol": [
+    13.4,
+    18.0,
+    12.0,
+    18.0,
+    12.0,
+    12.0,
+    12.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    4,
+    2,
+    4,
+    2,
+    3,
+    3,
+    3,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M013.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 150.0,
+     "angles": [
+      133.2,
+      116.5,
+      83.6,
+      54.1,
+      null,
+      154.3,
+      null,
+      174.2
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 173.0,
+     "angles": [
+      120.2,
+      130.8,
+      67.2,
+      55.2,
+      143.8,
+      143.8,
+      167.5,
+      138.3
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 268.0,
+     "angles": [
+      137.4,
+      null,
+      81.6,
+      null,
+      149.4,
+      null,
+      150.1,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 209.0,
+     "angles": [
+      119.8,
+      null,
+      78.0,
+      null,
+      136.5,
+      144.1,
+      146.3,
+      139.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M014.1",
+   "index": 31,
+   "movement_no": 14,
+   "movement_name": "Left Brush Knee and Push",
+   "sub_name": "Left Brush Knee and right hand moves by right ear",
+   "hold_s": 0.6,
+   "instruction": "Left hand brushes knee and right hand moves by right ear and extends forward. Shift your weight to your left foot.",
+   "key_points": "Keep the key points from the previous left brush knee in mind.",
+   "mistakes": "Left palm too far back; right hand too high or low",
+   "target": [
+    139.9,
+    136.7,
+    null,
+    90.3,
+    149.7,
+    162.3,
+    167.0,
+    161.2
+   ],
+   "tol": [
+    36.1,
+    13.0,
+    null,
+    12.0,
+    18.0,
+    21.6,
+    18.0,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    3,
+    0,
+    3,
+    2,
+    4,
+    2,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M014.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 159.0,
+     "angles": [
+      null,
+      130.2,
+      null,
+      88.2,
+      null,
+      173.0,
+      null,
+      171.5
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 183.0,
+     "angles": [
+      null,
+      136.7,
+      null,
+      90.3,
+      148.8,
+      173.2,
+      175.7,
+      161.9
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 280.0,
+     "angles": [
+      121.8,
+      null,
+      75.4,
+      null,
+      150.6,
+      138.9,
+      158.2,
+      160.6
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 220.0,
+     "angles": [
+      158.0,
+      152.3,
+      32.6,
+      98.7,
+      119.7,
+      151.6,
+      131.1,
+      157.4
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M015.1",
+   "index": 32,
+   "movement_no": 15,
+   "movement_name": "Twist, Deflect, Step, Parry and Punch",
+   "sub_name": "Left foot pivots counterclockwise, hands shift left",
+   "hold_s": 0.25,
+   "instruction": "Left foot pivots counterclockwise, hands shift left",
+   "key_points": "Your weight gradually shifts forward to the left foot after it has pivoted.",
+   "mistakes": "",
+   "target": [
+    143.0,
+    144.9,
+    27.7,
+    84.7,
+    149.0,
+    164.9,
+    159.7,
+    161.0
+   ],
+   "tol": [
+    22.4,
+    13.0,
+    26.9,
+    17.5,
+    12.0,
+    12.0,
+    25.3,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    3,
+    2,
+    3,
+    3,
+    4,
+    4,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M015.1.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 162.0,
+     "angles": [
+      null,
+      109.6,
+      null,
+      75.9,
+      148.5,
+      163.5,
+      179.5,
+      164.4
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 186.0,
+     "angles": [
+      null,
+      144.9,
+      null,
+      84.7,
+      149.0,
+      166.4,
+      169.7,
+      147.7
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 286.0,
+     "angles": [
+      154.2,
+      137.1,
+      14.3,
+      42.1,
+      162.4,
+      156.1,
+      144.5,
+      161.0
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 223.0,
+     "angles": [
+      131.8,
+      151.4,
+      41.2,
+      93.6,
+      111.8,
+      168.7,
+      149.6,
+      119.1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M015.2",
+   "index": 33,
+   "movement_no": 15,
+   "movement_name": "Twist, Deflect, Step, Parry and Punch",
+   "sub_name": "Right foot kicks the ground, left hand brushes left knee",
+   "hold_s": 0.25,
+   "instruction": "Right foot kicks the ground, as your right hand moves down and inward",
+   "key_points": "Most of your weight should be on the the left.",
+   "mistakes": "",
+   "target": [
+    126.3,
+    100.9,
+    70.9,
+    49.2,
+    159.7,
+    123.0,
+    123.9,
+    154.5
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    12.0,
+    18.0,
+    22.5,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    1,
+    2,
+    2,
+    3,
+    2,
+    2,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M015.2.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 164.0,
+     "angles": [
+      null,
+      null,
+      null,
+      48.7,
+      165.0,
+      164.6,
+      173.8,
+      163.2
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 190.0,
+     "angles": [
+      123.6,
+      null,
+      64.1,
+      null,
+      159.7,
+      119.7,
+      112.7,
+      110.0
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 290.0,
+     "angles": [
+      129.0,
+      100.9,
+      77.7,
+      49.8,
+      158.7,
+      126.3,
+      135.2,
+      145.8
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M015.3",
+   "index": 34,
+   "movement_no": 15,
+   "movement_name": "Twist, Deflect, Step, Parry and Punch",
+   "sub_name": "Left hand blocks",
+   "hold_s": 0.25,
+   "instruction": "Left hand blocks at heart level, right foot steps up, and right hand forms a fist while moving towards your right side",
+   "key_points": "You are blocking an attack with your left hand by brushing it away.",
+   "mistakes": "",
+   "target": [
+    126.1,
+    124.4,
+    68.1,
+    43.1,
+    168.3,
+    161.0,
+    155.1,
+    159.7
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    24.1,
+    18.0,
+    14.5,
+    26.5,
+    14.8
+   ],
+   "weight": [
+    1.0,
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    3,
+    2,
+    3
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M015.3.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 172.0,
+     "angles": [
+      118.6,
+      132.8,
+      65.7,
+      31.0,
+      165.6,
+      161.0,
+      168.4,
+      159.7
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 196.0,
+     "angles": [
+      null,
+      115.9,
+      null,
+      55.2,
+      null,
+      152.9,
+      null,
+      137.9
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 292.0,
+     "angles": [
+      133.6,
+      null,
+      70.4,
+      null,
+      170.9,
+      168.3,
+      141.9,
+      167.1
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M015.4",
+   "index": 35,
+   "movement_no": 15,
+   "movement_name": "Twist, Deflect, Step, Parry and Punch",
+   "sub_name": "Right hand punches, right foot steps up",
+   "hold_s": 0.6,
+   "instruction": "Right hand punches, left foot steps up",
+   "key_points": "The punch is a counter to that attack.",
+   "mistakes": "All movements not combined together. This is a complex set of actions",
+   "target": [
+    131.1,
+    131.9,
+    57.2,
+    76.9,
+    137.8,
+    172.2,
+    122.1,
+    166.5
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    25.7,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    0.5,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    1,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M015.4.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 175.0,
+     "angles": [
+      null,
+      132.9,
+      null,
+      82.6,
+      null,
+      171.6,
+      null,
+      168.0
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 200.0,
+     "angles": [
+      null,
+      130.9,
+      null,
+      71.2,
+      null,
+      172.8,
+      null,
+      165.0
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 298.0,
+     "angles": [
+      131.1,
+      null,
+      61.4,
+      null,
+      150.6,
+      null,
+      125.2,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 237.0,
+     "angles": [
+      null,
+      null,
+      53.0,
+      null,
+      124.9,
+      143.5,
+      119.1,
+      139.5
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M016.1",
+   "index": 36,
+   "movement_no": 16,
+   "movement_name": "Apparent Close Up, Push",
+   "sub_name": "Right hand moves back and left hand brushes bottom of wrist",
+   "hold_s": 0.25,
+   "instruction": "Right hand moves back and left hand brushes bottom of wrist",
+   "key_points": "Almost like you're wiping something off of the bottom of your right wrist",
+   "mistakes": "",
+   "target": [
+    null,
+    96.3,
+    54.0,
+    37.5,
+    141.9,
+    157.5,
+    153.8,
+    131.2
+   ],
+   "tol": [
+    null,
+    21.4,
+    18.0,
+    18.0,
+    19.5,
+    12.0,
+    12.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    0,
+    2,
+    2,
+    2,
+    3,
+    3,
+    3,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M016.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 180.0,
+     "angles": [
+      null,
+      85.6,
+      null,
+      31.4,
+      null,
+      157.5,
+      null,
+      167.7
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 205.0,
+     "angles": [
+      null,
+      106.9,
+      null,
+      43.6,
+      151.6,
+      159.3,
+      164.9,
+      136.8
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 305.0,
+     "angles": [
+      137.0,
+      null,
+      55.7,
+      null,
+      141.9,
+      null,
+      152.7,
+      null
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 245.0,
+     "angles": [
+      94.5,
+      null,
+      52.4,
+      null,
+      131.9,
+      143.6,
+      153.8,
+      125.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M016.2",
+   "index": 37,
+   "movement_no": 16,
+   "movement_name": "Apparent Close Up, Push",
+   "sub_name": "Both hands push",
+   "hold_s": 0.6,
+   "instruction": "Both hands push forwards.",
+   "key_points": "Express your energy with your palms",
+   "mistakes": "Not pushing in front of you.",
+   "target": [
+    133.7,
+    125.2,
+    76.2,
+    79.4,
+    158.8,
+    162.8,
+    168.0,
+    166.9
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    35.5,
+    18.0,
+    18.0,
+    15.6,
+    18.0,
+    12.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    4,
+    2,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M016.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 185.0,
+     "angles": [
+      null,
+      126.2,
+      null,
+      80.3,
+      159.3,
+      165.8,
+      175.5,
+      176.3
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 212.0,
+     "angles": [
+      null,
+      124.2,
+      null,
+      78.5,
+      null,
+      175.5,
+      null,
+      169.2
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 313.0,
+     "angles": [
+      140.8,
+      null,
+      94.0,
+      null,
+      158.3,
+      159.9,
+      160.5,
+      164.7
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 250.0,
+     "angles": [
+      126.7,
+      null,
+      58.5,
+      null,
+      113.0,
+      148.8,
+      123.9,
+      163.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M017.1",
+   "index": 38,
+   "movement_no": 17,
+   "movement_name": "Cross Hands",
+   "sub_name": "Both hands turn 90 degrees and both feet turn roughly 90 degrees",
+   "hold_s": 0.25,
+   "instruction": "Both hands turn 90 degrees and both feet turn roughly 90 degrees, your right foot going first",
+   "key_points": "",
+   "mistakes": "Not facing forwards, the direction you started with.",
+   "target": [
+    136.1,
+    119.9,
+    75.7,
+    76.9,
+    158.0,
+    162.8,
+    158.6,
+    157.2
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    19.2,
+    19.0,
+    22.3,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M017.1.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 190.0,
+     "angles": [
+      132.0,
+      116.2,
+      69.1,
+      67.2,
+      167.5,
+      173.9,
+      154.4,
+      154.8
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 319.0,
+     "angles": [
+      140.2,
+      123.6,
+      82.3,
+      86.5,
+      148.5,
+      151.6,
+      162.7,
+      159.6
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M017.2",
+   "index": 39,
+   "movement_no": 17,
+   "movement_name": "Cross Hands",
+   "sub_name": "Hands cross",
+   "hold_s": 0.25,
+   "instruction": "Hands come down and then raise up, your forearms crossing.",
+   "key_points": "Your left forearm is in front of your right.",
+   "mistakes": "Left forearm behind the right forearm",
+   "target": [
+    116.8,
+    112.0,
+    53.9,
+    49.1,
+    164.4,
+    164.2,
+    145.1,
+    154.1
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    24.8,
+    12.0,
+    12.0,
+    21.3,
+    12.0,
+    24.6
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    2,
+    2,
+    3,
+    3,
+    4,
+    4,
+    3,
+    4
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M017.2.jpg",
+   "thumbnail_flip": true,
+   "sources": [
+    {
+     "video": "V1",
+     "time": 196.0,
+     "angles": [
+      118.3,
+      107.1,
+      53.9,
+      49.1,
+      167.7,
+      173.7,
+      145.1,
+      158.7
+     ]
+    },
+    {
+     "video": "V2",
+     "time": 224.0,
+     "angles": [
+      115.3,
+      116.8,
+      41.5,
+      43.3,
+      167.4,
+      175.9,
+      149.9,
+      149.4
+     ]
+    },
+    {
+     "video": "V3",
+     "time": 332.0,
+     "angles": [
+      null,
+      null,
+      67.0,
+      null,
+      161.4,
+      154.6,
+      175.2,
+      174.0
+     ]
+    },
+    {
+     "video": "V4",
+     "time": 270.0,
+     "angles": [
+      null,
+      null,
+      null,
+      57.0,
+      146.2,
+      140.8,
+      135.2,
+      129.9
+     ]
+    }
+   ]
+  },
+  {
+   "id": "M017.3",
+   "index": 40,
+   "movement_no": 17,
+   "movement_name": "Cross Hands",
+   "sub_name": "Hands go to the side and then go down",
+   "hold_s": 0.6,
+   "instruction": "Palms rotate downward as your hands go to the side and then go down.",
+   "key_points": "You should end up in the beginning position.",
+   "mistakes": "",
+   "target": [
+    164.4,
+    139.6,
+    16.3,
+    16.9,
+    174.7,
+    172.7,
+    159.9,
+    168.4
+   ],
+   "tol": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    18.0
+   ],
+   "weight": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "n_videos_per_joint": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+   ],
+   "cues": [],
+   "thumbnail": "thumbs/M017.3.jpg",
+   "thumbnail_flip": false,
+   "sources": [
+    {
+     "video": "V3",
+     "time": 349.0,
+     "angles": [
+      164.4,
+      139.6,
+      16.3,
+      16.9,
+      174.7,
+      172.7,
+      159.9,
+      168.4
+     ]
+    }
+   ]
+  }
+ ]
+}
