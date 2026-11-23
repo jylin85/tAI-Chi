@@ -315,6 +315,15 @@ private fun ImuCard(title: String, state: ImuClient.State, modifier: Modifier = 
                 fontFamily = FontFamily.Monospace
             )
         }
+        // Time-sync debug line: measured drift, Bluetooth delay of the latest packet, lost packets.
+        state.clock?.let {
+            Text(
+                it,
+                color = Color(0xFFB8D9C3),
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+        }
     }
 }
 

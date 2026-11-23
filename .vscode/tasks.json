@@ -1,0 +1,52 @@
+{
+    // Run with Terminal > Run Task... (or Cmd/Ctrl+Shift+B for "Tablet: run app").
+    // Works on macOS (tablet.sh) and Windows (tablet.cmd).
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Tablet: run app",
+            "detail": "Build, install and open tAI-Chi on the tablet",
+            "type": "shell",
+            "command": "./tablet.sh run",
+            "windows": { "command": ".\\tablet.cmd run" },
+            "options": { "cwd": "${workspaceFolder}/tAI-Chi_app" },
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": []
+        },
+        {
+            "label": "Tablet: switch to Wi-Fi",
+            "detail": "Tablet plugged in by USB: switch to Wi-Fi debugging, then unplug",
+            "type": "shell",
+            "command": "./tablet.sh wifi",
+            "windows": { "command": ".\\tablet.cmd wifi" },
+            "options": { "cwd": "${workspaceFolder}/tAI-Chi_app" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Tablet: list devices",
+            "type": "shell",
+            "command": "./tablet.sh devices",
+            "windows": { "command": ".\\tablet.cmd devices" },
+            "options": { "cwd": "${workspaceFolder}/tAI-Chi_app" },
+            "problemMatcher": []
+        },
+        {
+            "label": "Tablet: uninstall app",
+            "detail": "Deletes the app and its data from the tablet",
+            "type": "shell",
+            "command": "./tablet.sh uninstall",
+            "windows": { "command": ".\\tablet.cmd uninstall" },
+            "options": { "cwd": "${workspaceFolder}/tAI-Chi_app" },
+            "problemMatcher": []
+        },
+        {
+            "label": "App: run unit tests",
+            "type": "shell",
+            "command": "./tablet.sh test",
+            "windows": { "command": ".\\tablet.cmd test" },
+            "options": { "cwd": "${workspaceFolder}/tAI-Chi_app" },
+            "group": "test",
+            "problemMatcher": []
+        }
+    ]
+}

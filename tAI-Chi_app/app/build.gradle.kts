@@ -19,6 +19,18 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Shared debug key, committed so that a debug build from any teammate's computer
+    // can update the app on the test tablet without uninstalling it first.
+    // Only for debug builds. Never use this key for a release.
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         release {
             optimization {
@@ -57,3 +69,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
+// Tablet helper tasks (tabletRun, tabletWifi, tabletDevices). See tablet.gradle.kts.
+apply(from = "tablet.gradle.kts")
