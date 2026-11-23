@@ -35,7 +35,14 @@
 #include <LSM6DS3.h>
 #include <Wire.h>
 
+// Which band this is. Arduino IDE: change 'R' to 'L' below for the left band (and back afterwards).
+// Command line: leave this alone and add  --build-property compiler.cpp.extra_flags=-DLEFT_BAND
+// for the left band (see tAI-Chi_app/README.md, section 5).
+#ifdef LEFT_BAND
+#define BOARD_SIDE 'L'
+#else
 #define BOARD_SIDE 'R'          // 'L' for the left IMU, 'R' for the right IMU
+#endif
 #define SAMPLE_INTERVAL_MS 50   // 20 samples per second, on a fixed schedule
 #define BATTERY_INTERVAL_MS 2000   // measure the battery every 2 s
 #define PIN_CHG 23              // D23 = P0.17, the charge chip's ~CHG output (LOW while charging)

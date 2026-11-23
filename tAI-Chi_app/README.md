@@ -209,11 +209,11 @@ The two IMU boards are Seeed XIAO nRF52840 Sense boards with a built-in motion s
 ### 5.2 Program the left board
 
 1. In Arduino IDE, choose **File → Open…** and open `tAI-Chi-repo/XIAOinterfaceAppTablet/XIAOinterfaceAppTablet.ino`.
-2. Near the top, set the side to left:
+2. Near the top, find this line and change `'R'` to `'L'`:
    ```cpp
-   #define BOARD_SIDE 'L'          // 'L' for the left IMU, 'R' for the right IMU
+   #define BOARD_SIDE 'R'          // 'L' for the left IMU, 'R' for the right IMU
    ```
-3. Plug the first board into the computer with a USB-C cable.
+3. Plug the first board into the computer with a USB-C cable. It must be a data cable.
 4. Select **Tools → Board → Seeed nRF52 Boards → Seeed XIAO nRF52840 Sense**.
 5. Select **Tools → Port** and pick the board's port. On Mac it looks like `/dev/cu.usbmodem…`; on Windows it is a `COM` port.
 6. Click **Upload** (the → arrow button) and wait for "Done uploading".
@@ -222,9 +222,36 @@ The two IMU boards are Seeed XIAO nRF52840 Sense boards with a built-in motion s
 
 ### 5.3 Program the right board
 
-Repeat 5.2 with the second board, but set `#define BOARD_SIDE 'R'`. The Serial Monitor should show `Advertising as tAIChi-R`. Label it "R".
+Repeat 5.2 with the second board, but with the line set back to `'R'`. The Serial Monitor should show `Advertising as tAIChi-R`. Label it "R".
 
-After uploading, change the line back if you don't want the edit committed. The sketch in git is set to `'R'`.
+Leave the line at `'R'` when you are done, so the edit is not committed.
+
+### Alternative: upload from the command line
+
+You can skip the Arduino IDE and use `arduino-cli` instead. This also avoids editing the file for each side.
+
+1. **Install it once.** Mac: `brew install arduino-cli`. Windows: download it from [arduino.github.io/arduino-cli](https://arduino.github.io/arduino-cli/latest/installation/). Then, once:
+   ```
+   arduino-cli config init
+   arduino-cli config add board_manager.additional_urls https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+   arduino-cli core update-index
+   arduino-cli core install Seeeduino:nrf52
+   arduino-cli lib install "Seeed Arduino LSM6DS3"
+   ```
+2. **Plug in one board and find its port:** run `arduino-cli board list`. Look for `/dev/cu.usbmodem…` (Mac) or `COM…` (Windows).
+3. **Upload,** from the `tAI-Chi-repo` folder, replacing `PORT` with that port:
+   ```
+   # left band
+   arduino-cli compile --upload -p PORT --fqbn Seeeduino:nrf52:xiaonRF52840Sense --build-property compiler.cpp.extra_flags=-DLEFT_BAND XIAOinterfaceAppTablet
+
+   # right band (the default)
+   arduino-cli compile --upload -p PORT --fqbn Seeeduino:nrf52:xiaonRF52840Sense XIAOinterfaceAppTablet
+   ```
+4. **Check it:** run `arduino-cli monitor -p PORT -c baudrate=115200`, then press the board's reset button. It should print `Advertising as tAIChi-L` (or `-R`). Press Ctrl+C to stop.
+
+**If the upload fails or the port does not appear:** double-press the tiny reset button on the board quickly. It enters upload mode (the LED pulses, and a drive called `XIAO-SENSE` appears on the computer), and a new port appears. Upload again to that port.
+
+**Whenever `XIAOinterfaceAppTablet.ino` changes, upload it to both bands again.** The tablet app update (`./tablet.sh`) does not touch the bands.
 
 ### 5.4 Power the boards
 
