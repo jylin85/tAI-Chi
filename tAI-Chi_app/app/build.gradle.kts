@@ -19,6 +19,18 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Shared debug key, committed so that a debug build from any teammate's computer
+    // can update the app on the test tablet without uninstalling it first.
+    // Only for debug builds. Never use this key for a release.
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
         release {
             optimization {
@@ -41,6 +53,7 @@ dependencies {
     implementation("androidx.camera:camera-camera2:1.4.2")
     implementation("androidx.camera:camera-lifecycle:1.4.2")
     implementation("androidx.camera:camera-view:1.4.2")
+    implementation("androidx.camera:camera-video:1.4.2")   // video for recorded training sessions
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
@@ -57,3 +70,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
+// Tablet helper tasks (tabletRun, tabletWifi, tabletDevices). See tablet.gradle.kts.
+apply(from = "tablet.gradle.kts")

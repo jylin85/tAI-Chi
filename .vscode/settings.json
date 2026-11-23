@@ -1,0 +1,7 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    // The Android app is Kotlin, which this Java extension does not support. When it imports
+    // the Gradle project it starts Gradle with its own Java runtime, which has no jlink and
+    // breaks Android builds. Build with tablet.sh / tablet.cmd (or Android Studio) instead.
+    "java.import.gradle.enabled": false
+}

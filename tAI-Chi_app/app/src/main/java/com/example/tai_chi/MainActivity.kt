@@ -1,15 +1,27 @@
 package com.example.tai_chi
 
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.MirrorMode
 import androidx.camera.core.Preview
+import androidx.camera.video.FallbackStrategy
+import androidx.camera.video.FileOutputOptions
+import androidx.camera.video.Quality
+import androidx.camera.video.QualitySelector
+import androidx.camera.video.Recorder
+import androidx.camera.video.Recording
+import androidx.camera.video.VideoCapture
+import androidx.camera.video.VideoRecordEvent
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
@@ -22,6 +34,9 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,7 +49,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -55,7 +72,9 @@ import com.example.poseengine.MediaPipePoseFeedbackEngine
 import com.example.poseengine.PoseFeedbackEngine
 import com.example.poseengine.ReferenceImage
 import com.example.tai_chi.ui.theme.TAiChiTheme
+import java.io.File
 import java.util.concurrent.ExecutorService
+import kotlinx.coroutines.delay
 import java.util.concurrent.Executors
 
 class MainActivity : ComponentActivity() {
@@ -75,6 +94,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Practice and recording sessions run for minutes without anyone touching the screen.
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentViewForCamera(hasCamera())
         val missing = requiredPermissions().filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
@@ -123,10 +144,77 @@ private fun TaiChiCameraScreen() {
 
     val imu = remember { ImuClient(context) }
 
+    // Session recording (training data). Files go to the app's folder on the tablet; see RECORDINGS.md.
+    val recorder = remember {
+        val version = runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }
+            .getOrNull() ?: "unknown"
+        SessionRecorder(context, version)
+    }
+    var videoCapture by remember { mutableStateOf<VideoCapture<Recorder>?>(null) }   // null: no video on this device
+    var activeVideo by remember { mutableStateOf<Recording?>(null) }
+    var session by remember { mutableStateOf<SessionRecorder.Session?>(null) }
+    var recordMessage by remember { mutableStateOf<String?>(null) }
+    var showRecordDialog by remember { mutableStateOf(false) }
+    var nowNs by remember { mutableLongStateOf(0L) }
+    LaunchedEffect(session) {
+        while (session != null) { nowNs = SystemClock.elapsedRealtimeNanos(); delay(500) }
+    }
+
+    fun startRecording(performer: String, notes: String) {
+        val s = recorder.start(performer, notes, SystemClock.elapsedRealtimeNanos())
+        session = s
+        nowNs = s.startedNs
+        recordMessage = null
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED   // turning would end the session
+        val vc = videoCapture
+        if (vc == null) {
+            recorder.videoUnavailable(s.id, "this tablet cannot record video while the pose detector runs")
+            return
+        }
+        recorder.expectVideo(s.id)
+        try {
+            activeVideo = vc.output
+                .prepareRecording(context, FileOutputOptions.Builder(File(s.dir, "video.mp4")).build())
+                .start(ContextCompat.getMainExecutor(context)) { e ->
+                    when (e) {
+                        is VideoRecordEvent.Start -> recorder.videoStarted(s.id, "video.mp4", SystemClock.elapsedRealtimeNanos())
+                        is VideoRecordEvent.Finalize -> recorder.videoFinished(
+                            s.id, s.dir, e.recordingStats.recordedDurationNanos,
+                            if (e.hasError()) "error ${e.error}: ${e.cause?.message ?: "unknown"}" else null
+                        )
+                    }
+                }
+        } catch (e: Exception) {
+            recorder.videoUnavailable(s.id, e.message ?: e.javaClass.simpleName)
+        }
+    }
+
+    fun stopRecording() {
+        activeVideo?.stop()
+        activeVideo = null
+        val end = SystemClock.elapsedRealtimeNanos()
+        val s = recorder.stop(end) ?: return
+        session = null
+        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        recordMessage = "Saving ${s.id} · ${formatDuration(end - s.startedNs)} · " +
+            "${recorder.frames.get()} frames · IMU L ${recorder.imuLeft.get()} / R ${recorder.imuRight.get()}…"
+    }
+
     DisposableEffect(Unit) {
+        recorder.onSaved = { id, location ->
+            activity.runOnUiThread {
+                recordMessage = recordMessage?.takeIf { it.contains(id) }?.removePrefix("Saving ")?.removeSuffix("…")
+                    .let { summary -> "Saved ${summary ?: id}\nTablet folder: $location" }
+            }
+        }
+        recorder.moveLeftovers()
+        imu.onReading = { side, r -> recorder.imu(side, r) }
         imu.start()
         onDispose {
+            if (recorder.isRecording) { activeVideo?.stop(); recorder.stop(SystemClock.elapsedRealtimeNanos()) }
+            imu.onReading = null
             imu.stop()
+            recorder.close()
             engine.close()
             cameraExecutor.shutdown()
         }
@@ -151,8 +239,10 @@ private fun TaiChiCameraScreen() {
                             .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                             .build()
                         analysis.setAnalyzer(cameraExecutor) { image ->
+                            val receivedNs = SystemClock.elapsedRealtimeNanos()
                             try {
                                 val latest = engine.analyze(image)
+                                recorder.frame(receivedNs, engine.lastFrame())
                                 val reference = engine.currentReference()
                                 activity.runOnUiThread {
                                     if (reference != null) pinnedReference = reference
@@ -175,14 +265,25 @@ private fun TaiChiCameraScreen() {
                                 image.close()
                             }
                         }
+                        // Video for recorded sessions. Mirrored like the preview, so it looks like what the
+                        // performer saw. No audio.
+                        val video = VideoCapture.Builder(
+                            Recorder.Builder().setQualitySelector(
+                                QualitySelector.from(Quality.HD, FallbackStrategy.lowerQualityOrHigherThan(Quality.SD))
+                            ).build()
+                        ).setMirrorMode(MirrorMode.MIRROR_MODE_ON_FRONT_ONLY).build()
                         try {
                             provider.unbindAll()
-                            provider.bindToLifecycle(
-                                activity,
-                                CameraSelector.DEFAULT_FRONT_CAMERA,
-                                preview,
-                                analysis
-                            )
+                            try {
+                                provider.bindToLifecycle(activity, CameraSelector.DEFAULT_FRONT_CAMERA, preview, analysis, video)
+                                videoCapture = video
+                            } catch (_: Exception) {
+                                // Some cameras cannot run preview, analysis and video at once: keep coaching,
+                                // record data without video.
+                                provider.unbindAll()
+                                provider.bindToLifecycle(activity, CameraSelector.DEFAULT_FRONT_CAMERA, preview, analysis)
+                                videoCapture = null
+                            }
                         } catch (_: Exception) {
                             activity.runOnUiThread {
                                 feedback.clear()
@@ -206,6 +307,7 @@ private fun TaiChiCameraScreen() {
                 .fillMaxHeight()
                 .fillMaxWidth(0.34f)
                 .background(Color(0xD9101713))
+                .systemBarsPadding()   // Android 15 draws apps edge to edge: keep clear of the system bars
                 .padding(horizontal = 16.dp, vertical = 18.dp)
         ) {
             Text(
@@ -232,6 +334,14 @@ private fun TaiChiCameraScreen() {
                     Text("Skip", color = Color(0xFFB8D9C3), fontSize = 16.sp)
                 }
             }
+            RecordControls(
+                recording = session != null,
+                elapsedNs = session?.let { nowNs - it.startedNs } ?: 0L,
+                hasVideo = videoCapture != null,
+                message = recordMessage,
+                onRecord = { showRecordDialog = true },
+                onStop = { stopRecording() },
+            )
             ReferencePicture(pinnedReference)
             LazyColumn(
                 modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
@@ -243,12 +353,20 @@ private fun TaiChiCameraScreen() {
             }
         }
 
+        if (showRecordDialog) {
+            RecordDialog(
+                onStart = { performer, notes -> showRecordDialog = false; startRecording(performer, notes) },
+                onDismiss = { showRecordDialog = false },
+            )
+        }
+
         // Live accelerometer / gyroscope readings from the two IMU boards, bottom left beside the rail.
         ImuPanel(
             imu = imu,
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .fillMaxWidth(0.66f)
+                .navigationBarsPadding()
                 .padding(12.dp)
         )
 
@@ -261,6 +379,7 @@ private fun TaiChiCameraScreen() {
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .fillMaxWidth(0.66f)
+                    .statusBarsPadding()
                     .padding(12.dp)
             )
         }
@@ -283,12 +402,29 @@ private fun ImuCard(title: String, state: ImuClient.State, modifier: Modifier = 
             .background(Color(0xE6101713), RoundedCornerShape(12.dp))
             .padding(12.dp)
     ) {
-        Text(title, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        // Title, with the band's battery on the right once it is connected.
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(title, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f))
+            if (r != null) BatteryIndicator(state.battery, state.batterySupported)
+        }
         Text(
             state.status,
             color = if (r != null) Color(0xFF78D6A1) else Color(0xFFFFD27A),
             fontSize = 14.sp
         )
+        state.battery?.takeIf { r != null }?.let { b ->
+            val low = b.percent < BatteryLevel.LOW_PERCENT && !b.charging
+            Text(
+                when {
+                    b.charging -> "Battery %.2f V · charging".format(b.volts)
+                    low -> "Battery low (%.2f V): charge this band soon".format(b.volts)
+                    else -> "Battery %.2f V".format(b.volts)
+                },
+                color = if (low) batteryColor(b.percent) else Color(0xFFB8D9C3),
+                fontSize = 12.sp
+            )
+        }
         if (r != null) {
             Text(
                 "ACCEL (g)",
@@ -313,6 +449,15 @@ private fun ImuCard(title: String, state: ImuClient.State, modifier: Modifier = 
                 color = Color.White,
                 fontSize = 20.sp,
                 fontFamily = FontFamily.Monospace
+            )
+        }
+        // Time-sync debug line: measured drift, Bluetooth delay of the latest packet, lost packets.
+        state.clock?.let {
+            Text(
+                it,
+                color = Color(0xFFB8D9C3),
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 6.dp)
             )
         }
     }

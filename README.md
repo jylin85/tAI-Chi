@@ -202,19 +202,65 @@ An Android Studio project with two Gradle modules. Application ID `com.example.t
 - **Right rail** (about a third of the width): the title, **Prev / Restart / Skip** buttons (the same as `p` / `r` / `n` in `coach.py`), the **pose to copy** with its number, and a scrolling list of status cards such as "Pose 3/29" with "Error 24° (need < 20°)", "Good - hold it... (50%)", "Pose matched!", and "Sequence complete!".
 - **Adjust banner** (top-left, large text meant to be read from a distance): the current corrections and warnings such as "Bend your left knee" or "No person detected. Step back so your whole body is visible."
 
-### Build and run
+### Running the app on the tablet
 
-Open `tAI-Chi_app/` in Android Studio and run the `app` configuration on a device with a front camera, or from a terminal:
+Works the same on macOS and Windows. Every command below has a Mac form (`./tablet.sh …`, in Terminal) and a Windows form (`tablet.cmd …`, in Command Prompt or PowerShell; in PowerShell type `.\tablet.cmd …`). Run them from the `tAI-Chi_app/` folder. In VS Code you can also use **Terminal → Run Task…** and pick a "Tablet: …" task, or press **Cmd/Ctrl+Shift+B** to run the app.
+
+#### One-time setup on each computer
+
+1. Install the latest stable **Android Studio** from [developer.android.com/studio](https://developer.android.com/studio) and open it once with the **Standard** setup, so it downloads the Android SDK. You do not have to use Android Studio afterwards. The scripts use its built-in Java and SDK, so nothing else needs installing (no separate Java, no `adb`).
+2. If Android Studio asks for **SDK Platform 37**, install it (**Tools → SDK Manager → SDK Platforms**).
+
+#### One-time setup on the tablet
+
+1. **Settings → About tablet**, tap **Build number** 7 times (on Samsung: **About tablet → Software information**).
+2. **Settings → System → Developer options**: turn on **USB debugging**.
+3. Plug it into the computer and tap **Allow** on "Allow USB debugging?" (tick "Always allow"). Each new computer gets this prompt once.
+
+#### Every time you change the code
 
 ```
-cd tAI-Chi_app
-./gradlew :app:installDebug                 # build and install on a connected device
-./gradlew :pose-engine:testDebugUnitTest    # run the coach unit tests
+./tablet.sh          # Mac      builds, installs and opens the app on the tablet
+tablet.cmd           # Windows
 ```
 
-Versions are pinned in [gradle/libs.versions.toml](tAI-Chi_app/gradle/libs.versions.toml) and the module build files: Gradle 9.6.0, Android Gradle Plugin 9.4.1, Kotlin 2.2.10, compile/target SDK 37, Compose BOM 2026.02.01, CameraX 1.4.2, MediaPipe `tasks-vision` 0.10.21.
+This rebuilds the app, replaces the version on the tablet and opens it. The app's saved data is kept. The first build on a computer takes a few minutes, later ones take seconds.
 
-`local.properties` is checked in with one contributor's Windows SDK path. Android Studio rewrites it for your machine; for command-line builds, set `sdk.dir` to your own Android SDK location.
+#### Without a cable (Wi-Fi)
+
+The tablet and the computer must be on the same Wi-Fi network.
+
+1. Plug the tablet in by USB and run `./tablet.sh wifi` (Windows: `tablet.cmd wifi`).
+2. When it says "You can unplug the cable now", unplug it.
+3. From now on, `./tablet.sh` reconnects over Wi-Fi by itself. This computer remembers the tablet's address in `tAI-Chi_app/.tablet-address`, which is not committed.
+
+After the tablet restarts, or after it moves to another Wi-Fi network, repeat step 1 once. Some school and guest networks block devices from reaching each other. If `wifi` cannot connect there, use the cable or a phone hotspot.
+
+#### Other commands
+
+| Mac | Windows | What it does |
+| --- | --- | --- |
+| `./tablet.sh devices` | `tablet.cmd devices` | Shows connected tablets, USB or Wi-Fi, and whether the app is installed |
+| `./tablet.sh uninstall` | `tablet.cmd uninstall` | Removes the app from the tablet, including its data |
+| `./tablet.sh test` | `tablet.cmd test` | Runs the pose-engine unit tests |
+
+Android Studio still works too: open the `tAI-Chi_app/` folder and press **▶ Run** with the `app` configuration.
+
+#### Handing the tablet between teammates
+
+Debug builds are signed with a shared key, [app/debug.keystore](tAI-Chi_app/app/debug.keystore), so a build from any teammate's computer installs over the previous one. No uninstall is needed. That key is for testing only. If the app is ever published, the release must be signed with a separate key that is never committed.
+
+If the install fails with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`, the tablet has a copy signed with a different key, from before the shared key was added. Run `./tablet.sh uninstall` once, then `./tablet.sh` again.
+
+#### Troubleshooting
+
+- **"No tablet is connected"**: check the cable (some cables only charge), make sure USB debugging is on, and look for the "Allow USB debugging?" prompt on the tablet.
+- **`jlink executable … does not exist`**: Gradle was started with a Java runtime that lacks `jlink`, usually the one inside VS Code's Java extension. Build with `tablet.sh` / `tablet.cmd`, which always use Android Studio's Java. The repo's `.vscode/settings.json` already stops that extension from importing the Gradle project.
+- **SDK location not found**: delete `tAI-Chi_app/local.properties` and run the script again. It writes the file for your computer. The file is per computer and is no longer committed.
+
+#### Versions
+
+Versions are pinned in [gradle/libs.versions.toml](tAI-Chi_app/gradle/libs.versions.toml) and the module build files: Gradle 9.6.0, Android Gradle Plugin 9.4.1, Kotlin 2.2.10, compile/target SDK 37, Compose BOM 2026.02.01, CameraX 1.4.2, MediaPipe `tasks-vision` 0.10.21. The tablet helper tasks are in [app/tablet.gradle.kts](tAI-Chi_app/app/tablet.gradle.kts).
 
 ## Changing the routine
 
@@ -241,6 +287,4 @@ To use the more accurate model in the app, add `pose_landmarker_full.task` to th
 - One routine from one video is bundled.
 - The Android app does not draw the skeleton over the camera preview.
 - The coach logic exists twice (Python and Kotlin), so a change to the matching rules has to be made in both.
-- The app README mentions IMUs, but there is no IMU code in the repo yet.
 - With a same-side reference, thumbnails are flipped for display, so the "#5 t=31.9s" label drawn on each thumbnail appears mirrored.
-- There is no `.gitignore` at the repo root, so build output (`tAI-Chi_app/.gradle/`, `tAI-Chi_app/pose-engine/build/`, `__pycache__/`) and `local.properties` are committed and show up as changes after every build.
