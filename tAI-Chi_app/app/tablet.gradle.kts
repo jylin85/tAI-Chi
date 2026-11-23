@@ -1,13 +1,15 @@
 // Helper tasks for running tAI-Chi on a test tablet. They work the same on macOS,
 // Windows and Linux. Usually started through the wrapper scripts in tAI-Chi_app/:
 //
-//   ./tablet.sh  run | wifi | devices | uninstall      (macOS / Linux)
-//   tablet.cmd   run | wifi | devices | uninstall      (Windows)
+//   ./tablet.sh  run | wifi | devices | pull | uninstall      (macOS / Linux)
+//   tablet.cmd   run | wifi | devices | pull | uninstall      (Windows)
 //
 // tabletRun        Reconnect a Wi-Fi tablet if one was set up, build, install, launch.
 // tabletWifi       With the tablet plugged in by USB, switch it to Wi-Fi debugging.
 // tabletDevices    Show the connected tablets.
+// tabletPull       Copy recorded sessions (tablet: Download/tAI-Chi) to tAI-Chi-repo/recordings/ on this computer.
 // tabletUninstall  Remove the app from the tablet (needed once if it was signed with another key).
+//                  Refuses while recordings are still in the app's private folder, unless -PtabletForce=true.
 //
 // Wi-Fi addresses are remembered per computer in tAI-Chi_app/.tablet-address (not committed).
 
@@ -18,6 +20,12 @@ import java.util.concurrent.TimeUnit
 val appId = "com.example.tai_chi"
 val launchComponent = "$appId/.MainActivity"
 val addressFile: File = rootProject.file(".tablet-address")
+// Where finished recordings end up on the tablet (Download/tAI-Chi; kept if the app is uninstalled), and
+// the app's private folder where they are written while recording (deleted if the app is uninstalled).
+val remoteRecordings = "/sdcard/Download/tAI-Chi"
+val remotePrivate = "/sdcard/Android/data/$appId/files/recordings"
+val localRecordings: File = rootProject.projectDir.parentFile.resolve("recordings")
+val forceUninstall = providers.gradleProperty("tabletForce").map { it == "true" }.getOrElse(false)
 
 val adbExecutable: String = run {
     val props = Properties()
@@ -86,6 +94,12 @@ object Adb {
             println("  " + run(adb, "connect", address, timeoutSeconds = 15))
         }
     }
+
+    /** Session folders saved on the tablet, newest last. */
+    fun remoteSessions(adb: String, serial: String, remote: String): List<String> =
+        run(adb, "-s", serial, "shell", "ls", "-1", remote).lines().map { it.trim() }
+            .filter { it.matches(Regex("\\d{4}-\\d{2}-\\d{2}_[A-Za-z0-9_-]+")) }
+            .sorted()
 
     fun requireDevice(adb: String): List<Device> {
         val all = devices(adb)
@@ -229,16 +243,73 @@ tasks.register("tabletDevices") {
     }
 }
 
+tasks.register("tabletPull") {
+    group = "tablet"
+    description = "Copies recorded sessions from the tablet to tAI-Chi-repo/recordings/."
+    val adb = adbExecutable
+    val file = addressFile
+    val public = remoteRecordings
+    val private = remotePrivate
+    val local = localRecordings
+    doLast {
+        Adb.startServer(adb)
+        Adb.reconnectSaved(adb, file)
+        val serial = Adb.requireDevice(adb).first().serial
+        // Finished sessions are in Download/tAI-Chi. A session still in the private folder was not moved
+        // yet (recording, or the app closed early): copy it from there.
+        val inPublic = Adb.remoteSessions(adb, serial, public)
+        val sessions = inPublic.map { it to public } +
+            Adb.remoteSessions(adb, serial, private).filter { it !in inPublic }.map { it to private }
+        if (sessions.isEmpty()) {
+            println("No recordings on the tablet yet.")
+            return@doLast
+        }
+        local.mkdirs()
+        var copied = 0
+        for ((id, remote) in sessions.sortedBy { it.first }) {
+            // Skip sessions already copied in full: same session.json, and it says the session is complete.
+            val remoteJson = Adb.run(adb, "-s", serial, "shell", "cat", "$remote/$id/session.json")
+            val localJson = File(local, "$id/session.json").takeIf { it.exists() }?.readText()?.trim()
+            if (localJson == remoteJson && remoteJson.contains("\"status\": \"complete\"")) {
+                println("  $id  already copied")
+                continue
+            }
+            if (remoteJson.contains("\"status\": \"recording\"")) {
+                println("  $id  still recording, or the app closed before it finished: copying what is there")
+            }
+            println("  $id  copying ...")
+            val out = Adb.run(adb, "-s", serial, "pull", "$remote/$id", local.path, timeoutSeconds = 600)
+            if (!File(local, id).isDirectory) throw GradleException("Copy failed for $id:\n$out")
+            copied++
+        }
+        println()
+        println("Copied $copied new session(s). All recordings are in:")
+        println("  ${local.path}")
+    }
+}
+
 tasks.register("tabletUninstall") {
     group = "tablet"
     description = "Uninstalls tAI-Chi from the tablet (this deletes the app's data on the tablet)."
     val adb = adbExecutable
     val file = addressFile
     val id = appId
+    val remote = remotePrivate
+    val force = forceUninstall
     doLast {
         Adb.startServer(adb)
         Adb.reconnectSaved(adb, file)
         for (device in Adb.requireDevice(adb)) {
+            val sessions = Adb.remoteSessions(adb, device.serial, remote)
+            if (sessions.isNotEmpty() && !force) {
+                throw GradleException(
+                    "${sessions.size} recorded session(s) are still in the app's private folder on the tablet,\n" +
+                        "and uninstalling the app deletes them. (Sessions already in Download/tAI-Chi are safe.)\n" +
+                        "Open the app once so it moves them to Download/tAI-Chi, or:\n" +
+                        "  1. Copy them to this computer first:   ./tablet.sh pull   (Windows: tablet.cmd pull)\n" +
+                        "  2. Then uninstall anyway with:          ./tablet.sh uninstall force   (Windows: tablet.cmd uninstall force)"
+                )
+            }
             println("${device.serial}: " + Adb.run(adb, "-s", device.serial, "uninstall", id))
         }
     }

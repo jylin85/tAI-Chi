@@ -42,15 +42,35 @@ class ImuClient(context: Context) {
      * Accelerometer in g, gyroscope in degrees per second.
      * [timeNs]: when the board took the sample, in tablet time (SystemClock.elapsedRealtimeNanos).
      * [seq]: the board's sample number, or -1 from old firmware that sends no timestamps.
+     * [arrivalNs]: when the packet reached the tablet (elapsedRealtimeNanos).
+     * [boardTicks]: the board's own clock when it took the sample (1024 per second), or -1 from old firmware.
+     * [offsetNs]: the clock offset used to convert board time to tablet time (0 from old firmware).
      */
     data class Reading(
         val ax: Float, val ay: Float, val az: Float,
         val gx: Float, val gy: Float, val gz: Float,
         val timeNs: Long, val seq: Int,
+        val arrivalNs: Long, val boardTicks: Long, val offsetNs: Long,
     )
 
-    /** [clock]: one line about time sync for the debug readout, or null before any data. */
-    data class State(val status: String, val reading: Reading? = null, val clock: String? = null)
+    /**
+     * Called for every reading, on a Bluetooth thread, as soon as it arrives (used to record sessions).
+     * Must return quickly: hand the work to another thread.
+     */
+    @Volatile var onReading: ((Side, Reading) -> Unit)? = null
+
+    /**
+     * [clock]: one line about time sync for the debug readout, or null before any data.
+     * [battery]: the band's battery, or null if not known yet. [batterySupported] is false for bands
+     * running firmware that does not report the battery.
+     */
+    data class State(
+        val status: String,
+        val reading: Reading? = null,
+        val clock: String? = null,
+        val battery: Battery? = null,
+        val batterySupported: Boolean = true,
+    )
 
     val left = mutableStateOf(State("Searching for tAIChi-L…"))
     val right = mutableStateOf(State("Searching for tAIChi-R…"))
@@ -214,11 +234,14 @@ class ImuClient(context: Context) {
         val timeNs: Long
         val seq: Int
         val clockText: String
+        var ticks = -1L
+        var offsetNs = 0L
         if (data.size >= 18) {
             // Bytes 12-15: board tick count when sampled (uint32). Bytes 16-17: sample number (uint16).
-            val ticks = b.getInt(12).toLong() and 0xFFFF_FFFFL
+            ticks = b.getInt(12).toLong() and 0xFFFF_FFFFL
             seq = b.getShort(16).toInt() and 0xFFFF
             timeNs = link.clock.toTabletNs(ticks, arrivalNs)
+            offsetNs = link.clock.offsetNs
             if (link.lastSeq >= 0) link.lost += ((seq - link.lastSeq - 1) and 0xFFFF).toLong()
             link.lastSeq = seq
             clockText = clockLine(link)
@@ -228,12 +251,21 @@ class ImuClient(context: Context) {
             seq = -1
             clockText = "No timestamps (old firmware)"
         }
+        // Bytes 18-19 (newest firmware): battery millivolts in bits 0-14, charging in bit 15.
+        // 0 mV means the board has not measured it yet.
+        val battery = if (data.size >= 20) {
+            val raw = b.getShort(18).toInt() and 0xFFFF
+            val mv = raw and 0x7FFF
+            if (mv > 0) Battery(mv, raw and 0x8000 != 0) else null
+        } else null
+        val batterySupported = data.size >= 20
         val r = Reading(
             b.getShort(0) / 1000f, b.getShort(2) / 1000f, b.getShort(4) / 1000f,
             b.getShort(6) / 10f, b.getShort(8) / 10f, b.getShort(10) / 10f,
-            timeNs, seq
+            timeNs, seq, arrivalNs, ticks, offsetNs
         )
-        main.post { stateOf(side).value = State("Connected", r, clockText) }
+        onReading?.invoke(side, r)
+        main.post { stateOf(side).value = State("Connected", r, clockText, battery, batterySupported) }
     }
 
     private fun clockLine(link: Link): String {

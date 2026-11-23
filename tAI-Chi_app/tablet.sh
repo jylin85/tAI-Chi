@@ -5,19 +5,23 @@
 #   ./tablet.sh            build, install and open the app (same as: ./tablet.sh run)
 #   ./tablet.sh wifi       tablet plugged in by USB: switch to Wi-Fi, then unplug
 #   ./tablet.sh devices    show connected tablets
-#   ./tablet.sh uninstall  remove the app from the tablet
+#   ./tablet.sh pull       copy recorded sessions from the tablet to tAI-Chi-repo/recordings/
+#   ./tablet.sh uninstall  remove the app from the tablet (add "force" if it holds recordings)
 #   ./tablet.sh test       run the pose-engine unit tests
 set -euo pipefail
 cd "$(dirname "$0")"
+extra=""
 
 case "${1:-run}" in
   run)       task=":app:tabletRun" ;;
   wifi)      task=":app:tabletWifi" ;;
   devices)   task=":app:tabletDevices" ;;
-  uninstall) task=":app:tabletUninstall" ;;
+  pull)      task=":app:tabletPull" ;;
+  uninstall) task=":app:tabletUninstall"
+             if [ "${2:-}" = "force" ]; then extra="-PtabletForce=true"; fi ;;
   test)      task=":pose-engine:testDebugUnitTest" ;;
-  -h|--help|help) sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
-  *) echo "Unknown command '$1'. Use: run, wifi, devices, uninstall, test" >&2; exit 1 ;;
+  -h|--help|help) sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+  *) echo "Unknown command '$1'. Use: run, wifi, devices, pull, uninstall, test" >&2; exit 1 ;;
 esac
 
 # --- Java: use a full JDK (Android Studio's bundled one). Some JREs, such as the one
@@ -55,6 +59,6 @@ if [ -z "$sdk" ] || [ ! -d "$sdk/platform-tools" ]; then
 fi
 
 export JAVA_HOME="$jdk"
-exec bash ./gradlew "$task" \
+exec bash ./gradlew "$task" $extra \
   -Porg.gradle.java.installations.auto-detect=false \
   "-Porg.gradle.java.installations.paths=$jdk"

@@ -25,7 +25,39 @@ interface PoseFeedbackEngine {
      * (so it is available even when no person is detected). Null if the engine has no reference.
      */
     fun currentReference(): ReferenceImage? = null
+
+    /**
+     * Raw detector output for the frame most recently passed to [analyze], for recording training data.
+     * Call it on the same thread right after [analyze]. Null if the engine does not provide it.
+     */
+    fun lastFrame(): PoseFrame? = null
 }
+
+/** Names of the joint angles in [PoseFrame.angles], in order. */
+val POSE_JOINT_NAMES: List<String> get() = JOINT_NAMES
+
+/** Number of body landmarks per person (BlazePose). */
+const val POSE_LANDMARK_COUNT = 33
+
+/**
+ * Everything the detector found in one camera frame. Arrays are null when no person was detected.
+ *
+ * @param imageTimestampNs the camera frame's own timestamp (ImageInfo.timestamp)
+ * @param poseIndex the reference pose the coach was on (0-based); equals [poseTotal] once the routine is complete
+ * @param angles joint angles in degrees, in [POSE_JOINT_NAMES] order, NaN where a joint was not visible
+ * @param world landmark positions in metres, x,y,z per landmark, centred on the hips
+ * @param image landmark positions in the upright, unmirrored frame, x,y per landmark, 0..1
+ * @param visibility per-landmark visibility, 0..1
+ */
+class PoseFrame(
+    val imageTimestampNs: Long,
+    val poseIndex: Int,
+    val poseTotal: Int,
+    val angles: DoubleArray?,
+    val world: FloatArray?,
+    val image: FloatArray?,
+    val visibility: FloatArray?,
+)
 
 data class ReferenceImage(val label: String, val bitmap: Bitmap)
 

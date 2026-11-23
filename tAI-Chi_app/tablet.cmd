@@ -5,7 +5,8 @@ rem
 rem   tablet.cmd            build, install and open the app (same as: tablet.cmd run)
 rem   tablet.cmd wifi       tablet plugged in by USB: switch to Wi-Fi, then unplug
 rem   tablet.cmd devices    show connected tablets
-rem   tablet.cmd uninstall  remove the app from the tablet
+rem   tablet.cmd pull       copy recorded sessions from the tablet to tAI-Chi-repo\recordings\
+rem   tablet.cmd uninstall  remove the app from the tablet (add "force" if it holds recordings)
 rem   tablet.cmd test       run the pose-engine unit tests
 setlocal EnableExtensions
 cd /d "%~dp0"
@@ -16,7 +17,10 @@ set "TASK="
 if /i "%CMD%"=="run"       set "TASK=:app:tabletRun"
 if /i "%CMD%"=="wifi"      set "TASK=:app:tabletWifi"
 if /i "%CMD%"=="devices"   set "TASK=:app:tabletDevices"
+if /i "%CMD%"=="pull"      set "TASK=:app:tabletPull"
 if /i "%CMD%"=="uninstall" set "TASK=:app:tabletUninstall"
+set "EXTRA="
+if /i "%CMD%"=="uninstall" if /i "%~2"=="force" set "EXTRA=-PtabletForce=true"
 if /i "%CMD%"=="test"      set "TASK=:pose-engine:testDebugUnitTest"
 if not defined TASK goto :usage
 
@@ -51,11 +55,11 @@ echo Wrote local.properties (sdk.dir=%SDKFWD%)
 
 :run
 set "JAVA_HOME=%JDK%"
-call "%~dp0gradlew.bat" %TASK% -Porg.gradle.java.installations.auto-detect=false "-Porg.gradle.java.installations.paths=%JDK%"
+call "%~dp0gradlew.bat" %TASK% %EXTRA% -Porg.gradle.java.installations.auto-detect=false "-Porg.gradle.java.installations.paths=%JDK%"
 exit /b %ERRORLEVEL%
 
 :usage
-echo Unknown command "%CMD%". Use: run, wifi, devices, uninstall, test
+echo Unknown command "%CMD%". Use: run, wifi, devices, pull, uninstall, test
 exit /b 1
 
 :nojdk

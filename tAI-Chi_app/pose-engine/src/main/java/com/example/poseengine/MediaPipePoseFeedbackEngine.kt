@@ -36,6 +36,9 @@ class MediaPipePoseFeedbackEngine(
     private var initError: String? = null
     private var firstFrameNs = -1L
     private var lastTimestampMs = -1L
+    private var lastFrame: PoseFrame? = null
+
+    override fun lastFrame(): PoseFrame? = lastFrame
 
     // Controls may be pressed before the first frame arrives; apply them once the coach exists.
     @Volatile private var pendingCommand: Int = 0   // 1 restart, 2 next, 3 previous
@@ -96,20 +99,28 @@ class MediaPipePoseFeedbackEngine(
         val result = lm.detectForVideo(BitmapImageBuilder(upright).build(), tsMs)
 
         var angles: DoubleArray? = null
+        var xyz: FloatArray? = null
+        var xy: FloatArray? = null
+        var vis: FloatArray? = null
         if (result.landmarks().isNotEmpty() && result.worldLandmarks().isNotEmpty()) {
             val image = result.landmarks()[0]
             val world = result.worldLandmarks()[0]
             if (image.size >= LANDMARK_COUNT && world.size >= LANDMARK_COUNT) {
-                val xyz = FloatArray(LANDMARK_COUNT * 3)
-                val vis = FloatArray(LANDMARK_COUNT)
+                xyz = FloatArray(LANDMARK_COUNT * 3)
+                xy = FloatArray(LANDMARK_COUNT * 2)
+                vis = FloatArray(LANDMARK_COUNT)
                 for (i in 0 until LANDMARK_COUNT) {
                     xyz[i * 3] = world[i].x(); xyz[i * 3 + 1] = world[i].y(); xyz[i * 3 + 2] = world[i].z()
+                    xy[i * 2] = image[i].x(); xy[i * 2 + 1] = image[i].y()
                     vis[i] = image[i].visibility().orElse(0f)
                 }
                 angles = computeJointAngles(xyz, vis)
             }
         }
-        return toFeedback(activeCoach.update(angles, tsMs), activeCoach)
+        val poseIndex = activeCoach.index   // the pose being compared in this frame, before update() may advance it
+        val state = activeCoach.update(angles, tsMs)
+        lastFrame = PoseFrame(frameNs, poseIndex, activeCoach.total, angles, xyz, xy, vis)
+        return toFeedback(state, activeCoach)
     }
 
     private fun uprightBitmap(frame: ImageProxy): Bitmap {

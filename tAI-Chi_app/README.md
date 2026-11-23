@@ -175,7 +175,8 @@ University networks such as eduroam usually block devices from talking to each o
 | Mac | Windows | What it does |
 | --- | --- | --- |
 | `./tablet.sh devices` | `tablet.cmd devices` | Shows connected tablets (USB or Wi-Fi) and whether the app is installed |
-| `./tablet.sh uninstall` | `tablet.cmd uninstall` | Removes the app and its data from the tablet |
+| `./tablet.sh pull` | `tablet.cmd pull` | Copies recorded sessions from the tablet to `tAI-Chi-repo/recordings/` ([6.8](#68-recording-training-sessions)) |
+| `./tablet.sh uninstall` | `tablet.cmd uninstall` | Removes the app and its data from the tablet. Recordings in `Download/tAI-Chi` are kept. Refuses if a recording has not been moved there yet: open the app once, or run `pull` and then `uninstall force`. |
 | `./tablet.sh test` | `tablet.cmd test` | Runs the pose-engine unit tests |
 
 Android Studio works as well: open the `tAI-Chi_app` folder, pick the tablet in the device list at the top, and press the green **▶ Run** button.
@@ -227,7 +228,7 @@ After uploading, change the line back if you don't want the edit committed. The 
 
 ### 5.4 Power the boards
 
-Once programmed, a board starts sending as soon as it has power. It does not need the computer. Power each board from a USB power bank, or from a LiPo battery soldered to the battery pads on the back. Then attach the **L** board on the left side of the body and the **R** board on the right.
+Once programmed, a board starts sending as soon as it has power. It does not need the computer. Power each board from a USB power bank, or from a LiPo battery soldered to the battery pads on the back. With a battery attached, plugging the board into USB-C charges it, and the app shows the battery level of each band ([6.6](#66-connecting-the-imu-sensors)). Then attach the **L** board on the left side of the body and the **R** board on the right.
 
 You do **not** pair the boards in the tablet's Bluetooth settings. The app finds them by itself (see [6.6](#66-connecting-the-imu-sensors)).
 
@@ -314,6 +315,19 @@ Each card shows one of these:
 
 At the moment the app only **displays** the IMU readings. They are not used for the coaching feedback yet.
 
+**Battery.** Once a band is connected, its card shows a battery gauge next to the name, for example **▭ 78%**, with the voltage underneath ("Battery 4.00 V"):
+
+| Gauge | Meaning |
+| --- | --- |
+| Green | 50% or more |
+| Yellow | 20–49% |
+| Red, with "Battery low: charge this band soon" | Below 20%. The warning appears below 15%. |
+| **⚡** and "charging" | The band is plugged into USB-C and charging |
+| "battery …" | Connected, but the band has not measured its battery yet (takes up to 2 seconds) |
+| "battery n/a" | The band runs older firmware without battery reporting. Upload the current sketch ([section 5](#5-set-up-the-imu-sensors-once-per-board)). |
+
+The percentage is worked out from the battery voltage using a typical LiPo discharge curve, so treat it as approximate (about ±10%). It also dips briefly under load. A band powered only by USB, with no battery attached, shows a meaningless reading.
+
 ### 6.7 Time sync between the sensors
 
 Each board has its own clock, and no two clocks run at exactly the same speed. They drift apart by a few milliseconds per minute. The app corrects for this automatically; there is nothing to set up.
@@ -330,6 +344,29 @@ Each IMU card shows a small sync line:
 
 A drift far outside ±100 ppm, or a "lost" count that keeps climbing, means something is wrong with the board or the Bluetooth link.
 
+### 6.8 Recording training sessions
+
+The **● Record session** button, under Prev / Restart / Skip, saves a session as training data for the movement-recognition model: the video, the detected pose in every frame, and both bands' readings, all on one shared clock.
+
+**Before recording:**
+- Put the tablet in its fixed position, with the performer's whole body in view (see [6.2](#62-set-up-the-space)).
+- If the bands are used, check that both IMU cards say **Clock synced** (see [6.7](#67-time-sync-between-the-sensors)). Otherwise the IMU file will be empty or start late.
+- Check free space on the tablet. Video takes about 40 MB per minute, so a 3-minute run is about 120 MB.
+
+**To record:**
+1. Tap **● Record session**.
+2. Type the **performer's name** (required; use the same spelling every time, for example "Jace") and optional **notes**, such as "normal speed", "slow", or "mistakes on purpose in moves 5–7". Tap **Start recording**.
+3. The button changes to **● REC 0:12** with a **■ Stop** button. Perform the form. The screen stays on, and rotation is locked while recording.
+4. Tap **■ Stop**. After a moment, a green line confirms what was saved and where, for example "Saved 2026-11-22_19-45-42_Jace · 3:05 · 1720 frames · IMU L 3700 / R 3698 / Tablet folder: Download/tAI-Chi/2026-11-22_19-45-42_Jace".
+
+Leaving the app, or the tablet turning off, also stops the recording. What was recorded until then is kept.
+
+**Where recordings are on the tablet:** in the **Files** app, go to **Browse → Downloads → tAI-Chi**. There is one folder per session, holding `video.mp4`, `camera.csv`, `imu.csv` and `session.json`. They stay there even if the app is uninstalled.
+
+**Getting the recordings onto a computer:** from the `tAI-Chi_app` folder, run `./tablet.sh pull` (Windows: `tablet.cmd pull`). New sessions are copied to `tAI-Chi-repo/recordings/<session id>/`. Do this after every recording day.
+
+Where the files are on the tablet, what each column means, and how to add move labels are all in [RECORDINGS.md](RECORDINGS.md).
+
 ---
 
 ## 7. Troubleshooting
@@ -340,6 +377,8 @@ A drift far outside ±100 ppm, or a "lost" count that keeps climbing, means some
 | --- | --- |
 | `No tablet is connected` | Use a data cable, check that USB debugging is on ([section 3](#3-set-up-the-tablet-once)), unlock the tablet and tap **Allow** on the "Allow USB debugging?" prompt. Run `./tablet.sh devices` to check. |
 | `INSTALL_FAILED_UPDATE_INCOMPATIBLE` | The tablet has an old copy signed with a different key, from before the shared key existed. Run `./tablet.sh uninstall` once, then `./tablet.sh`. |
+| `N recorded session(s) are still in the app's private folder…` when uninstalling | Those recordings have not been moved to `Download/tAI-Chi` yet, and uninstalling would delete them. Open the app once (it moves them), or run `./tablet.sh pull`, then `./tablet.sh uninstall force`. |
+| Can't find a recording on the tablet | Open the **Files** app → **Browse** → **Downloads** → **tAI-Chi**. A session appears there a moment after **■ Stop**. If the app was closed straight after stopping, open the app again and it moves the session. |
 | `Could not find a full Java JDK` | Install Android Studio ([2.3](#23-install-android-studio)). If it is installed somewhere unusual, set `JAVA_HOME` to its `jbr` folder. |
 | `Could not find the Android SDK` / "SDK location not found" | Open Android Studio once so it downloads the SDK. If that doesn't help, delete `tAI-Chi_app/local.properties` and run the command again. The script recreates the file for your computer. |
 | `jlink executable … does not exist` | Gradle was started with an incomplete Java, usually the one inside VS Code's Java extension. Build with `tablet.sh` / `tablet.cmd`, which always use Android Studio's Java. |

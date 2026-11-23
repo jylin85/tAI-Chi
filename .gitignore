@@ -17,3 +17,6 @@ tAI-Chi_app/.idea/misc.xml
 *.iml
 .DS_Store
 ~$*
+
+# Recorded practice sessions pulled from the tablet (videos of people; large). Share them another way.
+recordings/
