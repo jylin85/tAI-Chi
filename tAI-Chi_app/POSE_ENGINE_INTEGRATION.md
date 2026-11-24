@@ -31,3 +31,21 @@ Prev / Restart / Skip buttons mirror the `p` / `r` / `n` keys of `coach.py`.
 - Release builds: keep rules for MediaPipe are in `app/src/main/keepRules/rules.keep`.
 - Not yet implemented: skeleton overlay on the camera preview.
 - Run unit tests with `./gradlew :pose-engine:testDebugUnitTest`.
+
+## Coach v2 (current)
+The app now runs the coach v2 logic from `coach_v2.py` / `matching.py` with the reference made by
+`build_reference.py`:
+- `CoachV2.kt` - `scorePose` / `selectCues` / `problemKey` (port of `matching.py` + `joints.py`) and
+  `TaiChiCoachV2` (the main loop of `coach_v2.py`: per-keyframe hold time, skip/previous/restart, best score).
+  Pure Kotlin; `CoachV2Test.kt` covers it. The port was checked against `matching.py` on 2000 random poses
+  over the real reference (identical scores, verdicts and cues).
+- `ReferenceV2.kt` - loads `assets/reference_v2/reference.json` and `thumbs/`.
+- Per joint: weight 1 must be within its tolerance, weight 0.5 gets 1.5x, weight 0 is ignored. The score is the
+  worst joint (70% = edge of the allowed range), so a pose matches at >= 70%.
+- Expert cues from the workbook are used first, then generated ones. Each pose also shows its instruction,
+  key points and common mistakes.
+- `MediaPipePoseFeedbackEngine(context, tolScale = 1.3)` is more forgiving, like `--tol-scale 1.3`.
+
+To update the routine: re-run `build_reference.py`, then copy `reference_v2/reference.json` and
+`reference_v2/thumbs/` into `pose-engine/src/main/assets/reference_v2/`. The old `reference/` assets,
+`TaiChiCoach.kt` and `ReferenceSequence.kt` are kept but no longer used by the engine.
