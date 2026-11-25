@@ -19,7 +19,7 @@ class JointAnglesTest {
 
     @Test fun straightArmIs180() {
         val w = landmarks(11 to Triple(0f, 0f, 0f), 13 to Triple(1f, 0f, 0f), 15 to Triple(2f, 0f, 0f))
-        assertEquals(180.0, angleDeg(w, 11, 13, 15), 1e-3)
+        assertEquals(180.0, angleDeg(w, 11, 13, 15), 1e-2)   // the 1e-9 guard (same as pose_common.py) costs ~0.003 deg at 180
     }
 
     @Test fun lowVisibilityGivesNaN() {

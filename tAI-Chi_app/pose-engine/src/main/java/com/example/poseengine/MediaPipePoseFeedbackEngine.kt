@@ -11,28 +11,28 @@ import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
 import kotlin.math.roundToInt
 
 /**
- * Live Tai Chi coach (Android port of coach.py): MediaPipe Pose Landmarker -> 8 joint angles ->
- * compare with the next reference keyframe -> spoken-style corrections.
+ * Live Tai Chi coach (Android port of coach_v2.py): MediaPipe Pose Landmarker -> 8 joint angles ->
+ * per-joint scoring against the current reference_v2 keyframe -> expert or generated corrections.
  *
  * Call analyze() from one background thread (CameraX's analysis executor). The model and reference are
  * loaded on the first frame, so constructing the engine is cheap. All detector code, the model and the
  * reference live in this module; the UI only renders the returned [PoseFeedback].
  *
- * @param threshold max mean joint-angle error in degrees that counts as a match (coach.py default 20)
- * @param holdSeconds how long a pose must be held (coach.py default 0.6)
+ * @param tolScale multiplies every joint tolerance, as coach_v2.py --tol-scale (>1 is more forgiving)
+ * @param holdScale multiplies every keyframe's hold time, as coach_v2.py --hold-scale
  */
 class MediaPipePoseFeedbackEngine(
     context: Context,
     private val modelAsset: String = "pose_landmarker_lite.task",
-    private val referenceDir: String = "reference",
-    private val threshold: Double = 20.0,
-    private val holdSeconds: Double = 0.6,
+    private val referenceDir: String = "reference_v2",
+    private val tolScale: Double = 1.0,
+    private val holdScale: Double = 1.0,
 ) : PoseFeedbackEngine {
 
     private val appContext = context.applicationContext
     private var landmarker: PoseLandmarker? = null
-    private var reference: ReferenceSequence? = null
-    private var coach: TaiChiCoach? = null
+    private var reference: ReferenceV2? = null
+    private var coach: TaiChiCoachV2? = null
     private var initError: String? = null
     private var firstFrameNs = -1L
     private var lastTimestampMs = -1L
@@ -54,14 +54,14 @@ class MediaPipePoseFeedbackEngine(
         if (total == 0) return null
         val i = minOf(c.index, total - 1)   // after the last pose, keep showing the last one
         val bmp = ref.thumbnail(i) ?: return null
-        return ReferenceImage("Pose ${i + 1}/$total", bmp)
+        return ReferenceImage("Pose ${i + 1}/$total · ${c.keyframe(i).poseName}", bmp)
     }
 
     private fun ensureInitialised(): Boolean {
         if (landmarker != null && coach != null) return true
         if (initError != null) return false
         try {
-            val ref = ReferenceSequence.load(appContext, referenceDir)
+            val ref = ReferenceV2.load(appContext, referenceDir)
             val options = PoseLandmarker.PoseLandmarkerOptions.builder()
                 .setBaseOptions(BaseOptions.builder().setModelAssetPath(modelAsset).build())
                 .setRunningMode(RunningMode.VIDEO)   // synchronous detectForVideo(); we already run off the main thread
@@ -69,7 +69,7 @@ class MediaPipePoseFeedbackEngine(
                 .build()
             landmarker = PoseLandmarker.createFromOptions(appContext, options)
             reference = ref
-            coach = TaiChiCoach(ref.targets, threshold, (holdSeconds * 1000).toLong()).also {
+            coach = TaiChiCoachV2(ref.keyframes, tolScale, holdScale).also {
                 when (pendingCommand) { 1 -> it.restart(); 2 -> it.next(); 3 -> it.previous() }
                 pendingCommand = 0
             }
@@ -130,28 +130,41 @@ class MediaPipePoseFeedbackEngine(
         return Bitmap.createBitmap(raw, 0, 0, raw.width, raw.height, Matrix().apply { postRotate(rotation.toFloat()) }, true)
     }
 
-    private fun toFeedback(s: CoachState, coach: TaiChiCoach): List<PoseFeedback> {
-        val out = ArrayList<PoseFeedback>(4)
-        if (s.flashing) out += PoseFeedback("Pose matched!", "Nicely done.", Severity.GOOD)
+    private fun toFeedback(s: V2State, coach: TaiChiCoachV2): List<PoseFeedback> {
+        val out = ArrayList<PoseFeedback>(6)
+        if (s.banner != null) out += PoseFeedback("Matched!", s.banner, Severity.GOOD)
 
-        val title = if (s.status == CoachStatus.COMPLETE) "Pose ${s.total}/${s.total}" else "Pose ${s.index + 1}/${s.total}"
-        val thumb = if (s.index < s.total) reference?.thumbnail(s.index) else null
-        val limit = coach.threshold.roundToInt()
-        when (s.status) {
-            CoachStatus.COMPLETE ->
-                out += PoseFeedback("Sequence complete!", "Press Restart to practise again.", Severity.GOOD)
-            CoachStatus.NO_PERSON ->
-                out += PoseFeedback(title, "No person detected. Step back so your whole body is visible.", Severity.WARNING, thumb)
-            CoachStatus.TOO_FEW_JOINTS ->
-                out += PoseFeedback(title, "Can't see enough joints. Step back or improve the lighting.", Severity.WARNING, thumb)
-            CoachStatus.HOLDING ->
-                out += PoseFeedback(title, "Good - hold it... (${(s.holdFraction * 100).roundToInt()}%)  Error ${s.meanError.roundToInt()}°", Severity.GOOD, thumb)
-            CoachStatus.ADJUST -> {
-                val err = if (s.meanError.isNaN()) "" else "Error ${s.meanError.roundToInt()}° (need < $limit°)"
-                out += PoseFeedback(title, err.ifEmpty { "Match the pose shown." }, Severity.INFO, thumb)
-                for (cue in s.cues) out += PoseFeedback("Adjust", cue.replaceFirstChar { it.uppercase() }, Severity.TIP)
-            }
+        if (s.status == V2Status.COMPLETE) {
+            out += PoseFeedback("Sequence complete!",
+                "Average match on matched poses: ${s.averageMatched.roundToInt()}%. Press Restart to practise again.",
+                Severity.GOOD)
+            return out
         }
+
+        val kf = coach.keyframe(s.index)
+        val title = "Pose ${s.index + 1}/${s.total} · Movement ${kf.movementNo} of ${coach.movementCount}"
+        val thumb = reference?.thumbnail(s.index)
+        val score = if (s.score.isNaN()) "" else "Match ${s.score.roundToInt()}%"
+        when (s.status) {
+            V2Status.NO_PERSON ->
+                out += PoseFeedback(title, "Step into view so your whole body is visible.", Severity.WARNING, thumb)
+            V2Status.CANT_SEE ->
+                out += PoseFeedback(title, "I can't see your ${s.unseen.joinToString(", ")}. Step back or adjust the camera.",
+                    Severity.WARNING, thumb)
+            V2Status.HOLDING ->
+                out += PoseFeedback(title, "$score - hold it... (${(s.holdFraction * 100).roundToInt()}%)", Severity.GOOD, thumb)
+            V2Status.ADJUST -> {
+                out += PoseFeedback(title, "$score (need 70%)".takeIf { score.isNotEmpty() } ?: "Match the pose shown.",
+                    Severity.INFO, thumb)
+                for (cue in s.cues) out += PoseFeedback(if (cue.expert) "Coach tip" else "Adjust", cue.text, Severity.TIP)
+            }
+            V2Status.COMPLETE -> Unit
+        }
+
+        // Expert guidance for the current pose (INFO, so it stays in the side list, not the big banner).
+        out += PoseFeedback(kf.poseName.ifEmpty { kf.id }, kf.instruction.ifEmpty { "Copy the pose shown." }, Severity.INFO)
+        if (kf.keyPoints.isNotEmpty()) out += PoseFeedback("Key points", kf.keyPoints, Severity.INFO)
+        if (kf.mistakes.isNotEmpty()) out += PoseFeedback("Common mistakes", kf.mistakes, Severity.INFO)
         return out
     }
 

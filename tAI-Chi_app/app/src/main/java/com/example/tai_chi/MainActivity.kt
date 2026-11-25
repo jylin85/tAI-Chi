@@ -140,7 +140,7 @@ private fun TaiChiCameraScreen() {
     // last one received is kept, so it stays on screen whether or not a person is detected.
     var pinnedReference by remember { mutableStateOf<ReferenceImage?>(null) }
     val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
-    val engine: PoseFeedbackEngine = remember { MediaPipePoseFeedbackEngine(context) }
+    val engine: PoseFeedbackEngine = remember { MediaPipePoseFeedbackEngine(context, tolScale = 1.3) }
 
     val imu = remember { ImuClient(context) }
 
