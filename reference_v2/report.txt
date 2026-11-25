@@ -29,9 +29,10 @@ V3: 28 keyframe screenshots, 3 transition/unsure (not scored)
   ! V3 M015.3 @ 292.0s: pose changes by 42 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
   ! V3 M015.4 @ 298.0s: pose changes by 31 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
   ! V3 M017.3 @ 349.0s: pose changes by 31 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
-V4: 25 keyframe screenshots, 7 transition/unsure (not scored)
+V4: 27 keyframe screenshots, 5 transition/unsure (not scored)
   ! V4 M010.2 @ 175.0s: pose changes by 45 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
   ! V4 M012.3 @ 200.0s: pose changes by 35 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
+  ! V4 M015.3 @ 226.0s: pose changes by 53 deg within +/-0.3s (moving fast here) - consider a timestamp where the pose is steadier
 
 Keyframes with measurements from fewer than 3 videos:
   M02.3: 2 video(s)
@@ -61,8 +62,8 @@ Consecutive keyframes that are very similar (the coach may match both at once):
   M011.1 -> M011.2: mean difference is only 0.85x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
   M012.1 -> M012.2: mean difference is only 0.68x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
   M014.1 -> M015.1: mean difference is only 0.25x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
-  M015.2 -> M015.3: mean difference is only 0.79x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
-  M015.3 -> M015.4: mean difference is only 0.86x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M015.2 -> M015.3: mean difference is only 0.75x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
+  M015.3 -> M015.4: mean difference is only 0.91x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
   M016.2 -> M017.1: mean difference is only 0.24x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
   M017.1 -> M017.2: mean difference is only 0.69x tolerance. Merge them, or mark which joint distinguishes them (critical_joints / overrides).
 
